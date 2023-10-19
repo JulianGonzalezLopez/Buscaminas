@@ -1,5 +1,4 @@
 import tkinter
-import window
 from PIL import Image,ImageTk
 
 class BgImage():
