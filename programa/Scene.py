@@ -1,7 +1,6 @@
 import tkinter
 from tkinter import ttk
 
-
 class Scene():
     def __init__(self, parent):
         pass
@@ -12,3 +11,6 @@ class Scene():
         for l in lista:
             l.destroy()
         nextScene.frame.pack()
+ 
+    def terminar(self,parent):
+        parent.frame.destroy()

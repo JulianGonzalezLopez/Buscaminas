@@ -7,7 +7,7 @@ from Scene import Scene
 class SceneLose(Scene):
     def __init__(self, parent):
         self.frame = tkinter.Frame(parent, bg="yellow")
-        bImg = BgImage(self.frame,"images/lose.png")
+        bImg = BgImage(self.frame,"../images/lose.png")
         self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         bImg.label.pack()
         bottomText = Text(self.frame, "Mal ahí :(")
