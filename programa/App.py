@@ -55,7 +55,7 @@ class App():
         bottomText.pack()
         buttonBad = tkinter.Button(frame,text="Si, vamos a tomar unos mateicos", command= lambda: self.segundaEscenaGoodEnding())
         buttonBad.pack()
-        buttonGood = tkinter.Button(frame,text="No, tienes razón, solo interesa el cabeza de rodilla", command= lambda: self.primerEscenaBadEnding())
+        buttonGood = tkinter.Button(frame,text="No, tienes razón, solo me interesa el cabeza de rodilla", command= lambda: self.primerEscenaBadEnding())
         buttonGood.pack()
 
         frame.pack()
@@ -68,8 +68,8 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(frame, text="Muchas gracias, necesitaba esto")
         bottomText.pack()
-        #button = tkinter.Button(self.frame,text="Reiniciar", command= lambda: self.terminar(parent))
-        #button.pack()
+        button = tkinter.Button(frame,text="Reiniciar", command= lambda: self.reiniciar())
+        button.pack()
 
         frame.pack()
 
@@ -81,10 +81,21 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(frame, text="¿En serio solo te importa el pelado?")
         bottomText.pack()
-        #buttonN = tkinter.Button(self.frame,text="Continuar", command= lambda: self.destroySelf(parent,SceneMine(parent)))
-        #buttonN.pack()
+        button = tkinter.Button(frame,text="Si...", command= lambda: self.segundaEscenaBadEnding())
+        button.pack()
 
         frame.pack()
+
+    def segundaEscenaBadEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame,"../images/enojado.png")
+        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg.label.pack()
+        bottomText = tkinter.Label(frame, text="Entonces...MUERE")
+        bottomText.pack()
+        frame.pack()   
+
 
 
     def clear(self):
@@ -93,6 +104,10 @@ class App():
         for l in lista:
             l.destroy()
     
+    def reiniciar(self):
+        self.clear()
+        buttonIniciar = tkinter.Button(self.window ,text="Iniciar", command= lambda: self.primeraEscena())
+        buttonIniciar.pack()
 
 if __name__ == "__main__":
     app = App() 
