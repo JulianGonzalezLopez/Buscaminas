@@ -6,9 +6,9 @@ from BgImage import BgImage
 class App():
     def __init__(self):
         self.window = tkinter.Tk()
-        self.window.geometry("500x500")
-        self.buttonIniciar = tkinter.Button(self.window ,text="Iniciar", command= lambda: self.primeraEscena())
-        self.buttonIniciar.pack()
+        self.window.geometry("400x500")
+        self.window.title("Freezer's choice")
+        self.reiniciar()
 
     def primeraEscena(self):
         self.clear()
@@ -100,14 +100,17 @@ class App():
 
     def clear(self):
         lista = self.window.pack_slaves()
-        print(lista)
         for l in lista:
             l.destroy()
     
     def reiniciar(self):
         self.clear()
-        buttonIniciar = tkinter.Button(self.window ,text="Iniciar", command= lambda: self.primeraEscena())
-        buttonIniciar.pack()
+        self.window.iconphoto(True, tkinter.PhotoImage(file="../images/intro.png"))
+        bImg = BgImage(self.window,"../images/intro.png")
+        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg.label.place(x=0, y=0)
+        self.buttonIniciar = tkinter.Button(self.window ,text="Iniciar", command= lambda: self.primeraEscena())
+        self.buttonIniciar.place(x=190, y=278)
 
 if __name__ == "__main__":
     app = App() 
