@@ -1,29 +1,34 @@
 import tkinter
 from tkinter import ttk
 from BgImage import BgImage
+from Buscaminas import Buscaminas
+from BuscaminasUI import BuscaminasUI
 
 
 class App():
     def __init__(self):
         self.window = tkinter.Tk()
-        self.window.geometry("400x500")
+        self.window.geometry("405x550")
         self.window.title("Freezer's choice")
         self.reiniciar()
+        self.buscaminas_ui = None
 
     def primeraEscena(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
-        bImg = BgImage(frame,"../images/pensativo.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg = BgImage(frame, "../images/pensativo.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.pack()
-        
+
         bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto")
         bottomText.pack()
-        
+
         entry = ttk.Entry(frame)
         entry.pack()
 
-        button = tkinter.Button(frame,text="Ingresar", command= lambda: self.segundaEscena())
+        button = tkinter.Button(frame, text="Ingresar",
+                                command=lambda: self.segundaEscena())
         button.pack()
 
         frame.pack()
@@ -31,31 +36,39 @@ class App():
     def segundaEscena(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
-        bImg = BgImage(frame,"../images/riendo.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg = BgImage(frame, "../images/riendo.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.pack()
 
-        bottomText =  tkinter.Label(frame, text="Esto...¿Piensas que puedes ganarle al gran Lord Freezer?")
+        bottomText = tkinter.Label(
+            frame, text="Esto...¿Piensas que puedes ganarle al gran Lord Freezer?")
         bottomText.pack()
 
-        buttonBad = tkinter.Button(frame,text="Si, he venido a rescatar al cabeza de rodilla", command= lambda: self.primerEscenaBadEnding())
+        buttonBad = tkinter.Button(
+            frame, text="Si, he venido a rescatar al cabeza de rodilla", command=lambda: self.primerEscenaBadEnding())
         buttonBad.pack()
-        buttonGood = tkinter.Button(frame,text="No, vine por vos", command= lambda: self.primeraEscenaGoodEnding())
+        buttonGood = tkinter.Button(
+            frame, text="No, vine por vos", command=lambda: self.primeraEscenaGoodEnding())
         buttonGood.pack()
-                
+
         frame.pack()
-    
+
     def primeraEscenaGoodEnding(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
-        bImg = BgImage(frame,"../images/sonrojado.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg = BgImage(frame, "../images/sonrojado.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.pack()
-        bottomText = tkinter.Label(frame, text="¡Simio insolente! ¡¿Crees que podras amistarte con el GRAN LORD FREEZER?!")
+        bottomText = tkinter.Label(
+            frame, text="¡Simio insolente! ¡¿Crees que podras amistarte con el GRAN LORD FREEZER?!")
         bottomText.pack()
-        buttonBad = tkinter.Button(frame,text="Si, vamos a tomar unos mateicos", command= lambda: self.segundaEscenaGoodEnding())
+        buttonBad = tkinter.Button(
+            frame, text="Si, vamos a tomar unos mateicos", command=lambda: self.segundaEscenaGoodEnding())
         buttonBad.pack()
-        buttonGood = tkinter.Button(frame,text="No, tienes razón, solo me interesa el cabeza de rodilla", command= lambda: self.primerEscenaBadEnding())
+        buttonGood = tkinter.Button(
+            frame, text="No, tienes razón, solo me interesa el cabeza de rodilla", command=lambda: self.primerEscenaBadEnding())
         buttonGood.pack()
 
         frame.pack()
@@ -63,12 +76,15 @@ class App():
     def segundaEscenaGoodEnding(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
-        bImg = BgImage(frame,"../images/mate1.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg = BgImage(frame, "../images/mate1.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.pack()
-        bottomText = tkinter.Label(frame, text="Muchas gracias, necesitaba esto")
+        bottomText = tkinter.Label(
+            frame, text="Muchas gracias, necesitaba esto")
         bottomText.pack()
-        button = tkinter.Button(frame,text="Reiniciar", command= lambda: self.reiniciar())
+        button = tkinter.Button(frame, text="Reiniciar",
+                                command=lambda: self.reiniciar())
         button.pack()
 
         frame.pack()
@@ -76,12 +92,15 @@ class App():
     def primerEscenaBadEnding(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
-        bImg = BgImage(frame,"../images/triste.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg = BgImage(frame, "../images/triste.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.pack()
-        bottomText = tkinter.Label(frame, text="¿En serio solo te importa el pelado?")
+        bottomText = tkinter.Label(
+            frame, text="¿En serio solo te importa el pelado?")
         bottomText.pack()
-        button = tkinter.Button(frame,text="Si...", command= lambda: self.segundaEscenaBadEnding())
+        button = tkinter.Button(frame, text="Si...",
+                                command=lambda: self.segundaEscenaBadEnding())
         button.pack()
 
         frame.pack()
@@ -89,31 +108,172 @@ class App():
     def segundaEscenaBadEnding(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
-        bImg = BgImage(frame,"../images/enojado.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        bImg = BgImage(frame, "../images/enojado.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(frame, text="Entonces...MUERE")
         bottomText.pack()
-        frame.pack()   
+        frame.pack()
 
+        # Creo e inicializo el tablero, actualizo la ventana para que ande.
 
+        self.crear_tablero_buscaminas()
+        self.configurar_tablero_buscaminas()
+        self.window.update()
+        self.buscaminas_ui.start()
 
     def clear(self):
         lista = self.window.pack_slaves()
         for l in lista:
             l.destroy()
-    
+
     def reiniciar(self):
         self.clear()
-        self.window.iconphoto(True, tkinter.PhotoImage(file="../images/intro.png"))
-        bImg = BgImage(self.window,"../images/intro.png")
-        self.aux = bImg.new_pic #Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.window.iconphoto(
+            True, tkinter.PhotoImage(file="../images/intro.png"))
+        bImg = BgImage(self.window, "../images/intro.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
         bImg.label.place(x=0, y=0)
-        self.buttonIniciar = tkinter.Button(self.window ,text="Iniciar", command= lambda: self.primeraEscena())
+        self.buttonIniciar = tkinter.Button(
+            self.window, text="Iniciar", command=lambda: self.primeraEscena())
         self.buttonIniciar.place(x=190, y=278)
 
-if __name__ == "__main__":
-    app = App() 
-    app.window.mainloop()
+    # Buscaminas
 
-    
+    def crear_tablero_buscaminas(self):
+        # Crea una instancia de Buscaminas
+        self.buscaminas = Buscaminas(filas=8, columnas=8, num_minas=10)
+        self.buscaminas.colocar_minas()
+        self.buscaminas.inicializar_tablero()
+
+        # Pasa la instancia de App a BuscaminasUI
+        self.buscaminas_ui = BuscaminasUI(self.window, self.buscaminas, self)
+
+    def configurar_tablero_buscaminas(self):
+        self.buscaminas_ui.configurar_interfaz()
+
+    # Visual Novel
+
+    def terceraEscenaBadEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/derrotaJugador.jpeg")
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="Tocaste al pelado, perdiste... el pelado es MÍO")
+        bottomText.pack()
+
+        # Reinicio buscaminas
+        reiniciar_button = tkinter.Button(
+            frame, text="Intentar salvar al pelado una vez más ", command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
+        reiniciar_button.pack()
+
+        # Me gustó
+        love_ending_button = tkinter.Button(
+            frame, text="Me gustó...", command=self.primeraEscenaLoveEnding)
+        love_ending_button.pack()
+
+        frame.pack()
+
+    def primeraEscenaLoveEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/freezerBaka.jpeg")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="¿E- esto... acaso crees que puedes hacer que")
+        bottomText.pack()
+        bottomText2 = tkinter.Label(
+            frame, text="EL GRAN EMPERADOR DEL UNIVERSO LORD FREEZER se ")
+        bottomText2.pack()
+        bottomText3 = tkinter.Label(
+            frame, text="interese por una miserable y estupida sabandija como tú?")
+        bottomText3.pack()
+        button = tkinter.Button(frame, text="Si...",
+                                command=self.segundaEscenaLoveEnding)
+        button.pack()
+        frame.pack()
+
+    def segundaEscenaLoveEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/freezerTentado.jpeg")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="¿Ooh... miserable sabandija...")
+        bottomText.pack()
+        bottomText2 = tkinter.Label(
+            frame, text="para ganar mi afecto se me ocurren ")
+        bottomText2.pack()
+        bottomText3 = tkinter.Label(
+            frame, text="algunas opciones que podrías tratar de realizar")
+        bottomText3.pack()
+        button = tkinter.Button(frame, text="¿Cuáles?",
+                                command=self.terceraEscenaLoveEnding)
+        button.pack()
+        frame.pack()
+
+    def terceraEscenaLoveEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/riendo.png")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="MORIR, MORIR O MORIR, ¿CUÁL PREFIERES SABANDIJA? JAJAJAJA")
+        bottomText.pack()
+        button = tkinter.Button(
+            frame, text="MORIR", command=self.escenaBadLoveEnding)
+        button.pack()
+        button = tkinter.Button(
+            frame, text="Prefiero tu amor", command=self.cuartaEscenaLoveEnding)
+        button.pack()
+        frame.pack()
+
+    def escenaBadLoveEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/badLoveEndingFreezer.jpeg")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="¡MUERE INSECTO!")
+        bottomText.pack()
+        button = tkinter.Button(frame, text="Reiniciar",
+                                command=lambda: self.reiniciar())
+        button.pack()
+
+        frame.pack()
+
+    def cuartaEscenaLoveEnding(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/freezerEnamorado.jpeg")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="Oh... está bien, podremos gobernar juntos el universo a nuestro antojo,")
+        bottomText.pack()
+        bottomText2 = tkinter.Label(
+            frame, text="ven conmigo.")
+        bottomText2.pack()
+        button = tkinter.Button(frame, text="Volver a jugar",
+                                command=lambda: self.reiniciar())
+        button.pack()
+
+        frame.pack()
+
+
+if __name__ == "__main__":
+    app = App()
+    app.window.mainloop()
