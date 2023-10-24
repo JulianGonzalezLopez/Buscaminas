@@ -14,13 +14,13 @@ La clase `App` se encarga de gestionar la interfaz gráfica del juego y las narr
 
 - `segundaEscena(self)`: Muestra la segunda escena del juego con una pregunta al jugador.
 
-- `primeraEscenaGoodEnding(self)`: Muestra la primera escena de un final bueno en la narrativa del juego.
+- `primeraEscenaGoodEnding(self)`: Muestra la primera escena de un final bueno.
 
-- `segundaEscenaGoodEnding(self)`: Muestra la segunda escena de un final bueno en la narrativa del juego.
+- `segundaEscenaGoodEnding(self)`: Muestra la segunda escena de un final bueno.
 
-- `primerEscenaBadEnding(self)`: Muestra la primera escena de un final malo en la narrativa del juego.
+- `primerEscenaBadEnding(self)`: Muestra la primera escena de un final malo.
 
-- `segundaEscenaBadEnding(self)`: Muestra la segunda escena de un final malo en la narrativa del juego y configura el juego Buscaminas.
+- `segundaEscenaBadEnding(self)`: Muestra la segunda escena de un final malo del juego y configura el juego Buscaminas.
 
 - `clear(self)`: Limpia la ventana de la interfaz gráfica al eliminar todos los elementos en pantalla.
 
@@ -30,11 +30,21 @@ La clase `App` se encarga de gestionar la interfaz gráfica del juego y las narr
 
 - `configurar_tablero_buscaminas(self)`: Configura la interfaz gráfica del juego Buscaminas.
 
-- `terceraEscenaBadEnding(self)`: Muestra la tercera escena de un final malo en la narrativa del juego.
+- `terceraEscenaBadEnding(self)`: Muestra la tercera escena de un final malo.
 
 - `reiniciar_juego(self)`: Reinicia el juego después de perder o ganar.
 
 - `start(self)`: Inicia la ventana del juego Buscaminas.
+
+- `primeraEscenaLoveEnding(self)`: Muestra la primera escena de un final amoroso.
+
+- `segundaEscenaLoveEnding(self)`: Muestra la segunda escena de un final amoroso.
+
+- `terceraEscenaLoveEnding(self)`: Muestra la tercera escena de un final amoroso.
+
+- `escenaBadLoveEnding(self)`: Muestra el final malo de la ruta amorosa.
+
+- `cuartaEscenaLoveEnding(self)`: Muestra la cuarta escena de un final amoroso.
 
 ### Clase `Buscaminas` (Buscaminas.py)
 
