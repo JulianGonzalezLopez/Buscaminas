@@ -24,9 +24,7 @@ class Buscaminas:
         self.colocar_minas()
         for fila in range(self.filas):
             for columna in range(self.columnas):
-                if self.tablero[fila][columna] != -1:
-                    self.tablero[fila][columna] = 0
-                self.cubiertas[fila][columna] = True
+                self.cubiertas[fila][columna] = False
 
     def contar_minas_cercanas(self, fila, columna):
         minas_cercanas = 0

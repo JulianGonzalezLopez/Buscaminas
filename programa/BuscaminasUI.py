@@ -22,6 +22,27 @@ class BuscaminasUI:
                 fila_botones.append(boton)
             self.botones.append(fila_botones)
 
+    """
+    MODIFICACION PARA MOSTRAR MINAS EN EL TABLERO
+
+    def configurar_interfaz(self):
+    # Configura los botones del tablero
+    for fila in range(self.buscaminas.filas):
+        fila_botones = []
+        for columna in range(self.buscaminas.columnas):
+            if self.buscaminas.tablero[fila][columna] == -1:
+                # Si hay una mina en esta casilla, muestra el emoji directamente
+                boton = tk.Button(self.frame, text="💣", width=2, height=1)
+            else:
+                # Casilla sin mina, utiliza el comando clic_en_casilla
+                boton = tk.Button(self.frame, text=" ", width=2, height=1,
+                                  command=lambda f=fila, c=columna: self.clic_en_casilla(f, c))
+            boton.grid(row=fila, column=columna)
+            fila_botones.append(boton)
+        self.botones.append(fila_botones)
+        
+        """
+
     def clic_en_casilla(self, fila, columna):
         # La casilla tiene una mina, el juego termina
         if self.buscaminas.tablero[fila][columna] == -1:
@@ -78,7 +99,7 @@ class BuscaminasUI:
 
         # Configura nuevamente el tablero
         self.configurar_interfaz()
-        self.root.update()
+        self.root.update()  # Forzar la actualización de la interfaz
         self.start()
 
     def start(self):
