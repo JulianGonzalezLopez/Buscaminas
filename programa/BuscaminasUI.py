@@ -48,15 +48,22 @@ class BuscaminasUI:
             for columna in range(self.buscaminas.columnas):
                 if self.buscaminas.tablero[fila][columna] == -1:
                     # Muestra una mina en la casilla correspondiente
-                    self.botones[fila][columna]["text"] = "💥"
+                    self.botones[fila][columna]["text"] = "💣"
 
         # Deshabilita todos los botones en el tablero
         for fila_botones in self.botones:
             for boton in fila_botones:
                 boton.config(state="disabled")
 
-        # Tercera escena
-        self.app.terceraEscenaBadEnding()
+        # Creo un marco para el botón "Oh no..." porque sino se ve para el culo
+        oh_no_frame = tk.Frame(self.root)
+        oh_no_frame.pack()
+
+        # Creo el botón y lo asocio al metodo de la clase app
+        oh_no_button = tk.Button(
+            oh_no_frame, text="Oh no...", command=self.app.crear_boton_oh_no)
+        # Ajusto estilos
+        oh_no_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
     def reiniciar_juego(self):
         # Limpia el tablero del Buscaminas actual

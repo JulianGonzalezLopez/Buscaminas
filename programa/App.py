@@ -8,7 +8,7 @@ from BuscaminasUI import BuscaminasUI
 class App():
     def __init__(self):
         self.window = tkinter.Tk()
-        self.window.geometry("405x550")
+        self.window.geometry("405x580")
         self.window.title("Freezer's choice")
         self.reiniciar()
         self.buscaminas_ui = None
@@ -122,6 +122,11 @@ class App():
         self.configurar_tablero_buscaminas()
         self.window.update()
         self.buscaminas_ui.start()
+
+    # Metodo para el boton de la segunda escena o no funciona como YO quiero
+    def crear_boton_oh_no(self):
+        print("vamo bocaaaa")  # depuracion
+        self.terceraEscenaBadEnding()
 
     def clear(self):
         lista = self.window.pack_slaves()
