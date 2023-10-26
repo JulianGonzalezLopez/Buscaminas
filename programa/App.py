@@ -3,6 +3,7 @@ from tkinter import ttk
 from BgImage import BgImage
 from Buscaminas import Buscaminas
 from BuscaminasUI import BuscaminasUI
+import sqlite3
 
 
 class App():
@@ -12,7 +13,74 @@ class App():
         self.window.title("Freezer's choice")
         self.reiniciar()
         self.buscaminas_ui = None
+        self.conexion = sqlite3.connect("bm.db")
+        self.crear_db()
+        self.entryNombre = 0 #Contiene el nombre en la funcion ingresarNombre
+        self.usuario = ""
 
+    #Funciones para conexiones DB
+    def crear_db(self):
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        try:
+            self.conexion.execute("CREATE TABLE Logros (id integer primary key autoincrement, nombre text, descripcion text)")
+            self.conexion.execute("CREATE TABLE Usuarios (id integer primary key autoincrement, nombre text, puntos integer)")
+            self.conexion.execute("CREATE TABLE Usuarios_Logros (idU integer, idL integer)")
+            self.conexion
+            self.cargar_db()
+        except sqlite3.OperationalError:
+            pass
+        self.conexion.close()
+
+    def cargar_db(self):
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('La primera nunca se olvida', 'Logro obtenido por morir por primera vez')")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
+        self.conexion.commit()
+
+    def ingresarNombre(self):
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()
+        texto = self.entryNombre.get()
+        self.usuario = texto 
+        try:
+            cursor.execute("SELECT nombre FROM Usuarios WHERE nombre = ?", (texto,))
+            res = cursor.fetchall()
+            if(res !=[]):
+                pass
+            else:
+                sql = "INSERT INTO Usuarios(nombre,puntos) values(?,?)"
+                try:
+                    self.conexion.execute(sql, (texto,0))
+                    self.conexion.commit()
+                except sqlite3.OperationalError:
+                    print("error")
+        except:
+            pass
+
+        self.conexion.close()
+        self.segundaEscena()
+
+    def revisarPosesionLogro(self,logro):
+        print('Revisando si usuario : ' + self.usuario + ' posee este logro')
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()        
+        cursor.execute("SELECT idU,idL FROM Usuarios_Logros WHERE idU = ? AND idL = ?", (self.usuario, logro,))
+        res = cursor.fetchall()
+        if(res != []):
+            print("Ya se encuentra en posesion del mismo")
+        else:
+            self.relacionarUsuarioLogro(logro)
+
+    def relacionarUsuarioLogro(self, logro):
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        self.conexion.execute("INSERT INTO Usuarios_Logros(idU,idL) values(?,?)", (self.usuario, logro))
+        self.conexion.commit()
+        print("LOGRO OBTENIDO! " + str(logro))
+
+    #Escenas buscaminas
     def primeraEscena(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
@@ -24,11 +92,11 @@ class App():
         bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto")
         bottomText.pack()
 
-        entry = ttk.Entry(frame)
-        entry.pack()
+        self.entryNombre = ttk.Entry(frame)
+        self.entryNombre.pack()
 
         button = tkinter.Button(frame, text="Ingresar",
-                                command=lambda: self.segundaEscena())
+                                command=lambda: self.ingresarNombre())
         button.pack()
 
         frame.pack()
@@ -75,6 +143,7 @@ class App():
 
     def segundaEscenaGoodEnding(self):
         self.clear()
+        self.revisarPosesionLogro(2)
         frame = tkinter.Frame(self.window, bg="yellow")
         bImg = BgImage(frame, "../images/mate1.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
@@ -245,6 +314,7 @@ class App():
 
     def escenaBadLoveEnding(self):
         self.clear()
+        self.revisarPosesionLogro(1)
         frame = tkinter.Frame(self.window, bg="yellow")
         bImg = BgImage(frame, "../images/badLoveEndingFreezer.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
@@ -261,6 +331,7 @@ class App():
 
     def cuartaEscenaLoveEnding(self):
         self.clear()
+        self.revisarPosesionLogro(3)
         frame = tkinter.Frame(self.window, bg="yellow")
         bImg = BgImage(frame, "../images/freezerEnamorado.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
