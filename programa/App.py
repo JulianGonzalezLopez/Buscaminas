@@ -1,6 +1,7 @@
 import tkinter
 from tkinter import ttk
 from BgImage import BgImage
+from PopUpImage import PopUpImage
 from Buscaminas import Buscaminas
 from BuscaminasUI import BuscaminasUI
 import sqlite3
@@ -17,6 +18,52 @@ class App():
         self.crear_db()
         self.entryNombre = 0 #Contiene el nombre en la funcion ingresarNombre
         self.usuario = ""
+        self.auxPopUp = ""
+
+    def create_popup(self,logro):
+
+        #Se llama a la base de datos para saber que texto corresponde al popup
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()        
+        cursor.execute("SELECT nombre FROM Logros WHERE id = ?", (logro,))
+        #Texto del logro
+        res = cursor.fetchall()
+
+        popup = tkinter.Toplevel(self.window)
+        popup.geometry("200x100")  # Establece el tamaño de la ventana emergente
+
+        # Configura la ventana emergente sin borde
+        popup.overrideredirect(True)
+        popup.attributes('-topmost', 1)
+
+        # Obtiene el tamaño de la pantalla
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+
+        # Calcula las coordenadas x e y para que la ventana sea visible en su totalidad
+        popup_width = 200
+        popup_height = 150
+
+        x = screen_width - popup_width
+        y = screen_height - popup_height
+
+        if x < 0:
+            x = 0
+        if y < 0:
+            y = 0
+
+        # Posiciona la ventana emergente en la esquina inferior derecha
+        popup.geometry(f"{popup_width}x{popup_height}+{x}+{y}")
+
+        imagen_logro = PopUpImage(popup, f"../images/logro_{logro}.png")
+        self.auxPopUp = imagen_logro.new_pic
+        imagen_logro.label.pack()
+        label = tkinter.Label(popup, text=res[0], wraplength=150)
+        label.pack()
+        #Se autodestruye pasados los 2000 milis
+        popup.after(2000, popup.destroy)
+
 
     #Funciones para conexiones DB
     def crear_db(self):
@@ -79,6 +126,7 @@ class App():
         self.conexion.execute("INSERT INTO Usuarios_Logros(idU,idL) values(?,?)", (self.usuario, logro))
         self.conexion.commit()
         print("LOGRO OBTENIDO! " + str(logro))
+        self.create_popup(logro)
 
     #Escenas buscaminas
     def primeraEscena(self):
