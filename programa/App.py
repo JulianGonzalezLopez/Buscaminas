@@ -71,18 +71,20 @@ class App():
         try:
             self.conexion.execute("CREATE TABLE Logros (id integer primary key autoincrement, nombre text, descripcion text)")
             self.conexion.execute("CREATE TABLE Usuarios (id integer primary key autoincrement, nombre text, puntos integer)")
-            self.conexion.execute("CREATE TABLE Usuarios_Logros (idU integer, idL integer)")
-            self.conexion
+            self.conexion.execute("CREATE TABLE Usuarios_Logros (nombreU text, idL integer)")
             self.cargar_db()
         except sqlite3.OperationalError:
             pass
         self.conexion.close()
 
     def cargar_db(self):
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
         self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('La primera nunca se olvida', 'Logro obtenido por morir por primera vez')")
         self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
         self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
         self.conexion.commit()
+        self.conexion.close()
 
     def ingresarNombre(self):
         self.conexion = sqlite3.connect("bm.db")
@@ -113,8 +115,9 @@ class App():
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()        
-        cursor.execute("SELECT idU,idL FROM Usuarios_Logros WHERE idU = ? AND idL = ?", (self.usuario, logro,))
+        cursor.execute("SELECT nombreU,idL FROM Usuarios_Logros WHERE nombreU = ? AND idL = ?", (self.usuario, logro,))
         res = cursor.fetchall()
+        self.conexion.close()
         if(res != []):
             print("Ya se encuentra en posesion del mismo")
         else:
@@ -123,10 +126,11 @@ class App():
     def relacionarUsuarioLogro(self, logro):
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
-        self.conexion.execute("INSERT INTO Usuarios_Logros(idU,idL) values(?,?)", (self.usuario, logro))
+        self.conexion.execute("INSERT INTO Usuarios_Logros(nombreU,idL) values(?,?)", (self.usuario, logro))
         self.conexion.commit()
         print("LOGRO OBTENIDO! " + str(logro))
         self.create_popup(logro)
+        self.conexion.close()
 
     #Escenas buscaminas
     def primeraEscena(self):
