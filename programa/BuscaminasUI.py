@@ -1,11 +1,12 @@
 import tkinter as tk
 
-
 class BuscaminasUI:
     def __init__(self, root, buscaminas, app_instance):
         self.root = root
         self.buscaminas = buscaminas
         self.app = app_instance
+        self.puntos = 0
+        self.puntaje = 0
         self.frame = tk.Frame(root)
         self.frame.pack()
 
@@ -42,15 +43,25 @@ class BuscaminasUI:
         self.botones.append(fila_botones)
         
         """
+    
+    def actupuntaje(self, fila, columna):
+        if self.buscaminas.tablero[fila][columna] != -1:
+            self.puntos += 1
+            print("Puntaje:", self.puntos)
+        return self.puntos
+    
 
     def clic_en_casilla(self, fila, columna):
         # La casilla tiene una mina, el juego termina
         if self.buscaminas.tablero[fila][columna] == -1:
             self.mostrar_minas_al_perder()
+            puntaje = self.puntos
+
 
         # La casilla no tiene una mina, descubre la casilla
         else:
             self.buscaminas.cubiertas[fila][columna] = False
+            self.actupuntaje(fila, columna)
             self.botones[fila][columna]["state"] = "disabled"
             minas_cercanas = self.buscaminas.contar_minas_cercanas(
                 fila, columna)
@@ -105,3 +116,4 @@ class BuscaminasUI:
     def start(self):
         # Llama a esta función para mostrar la ventana del Buscaminas
         self.root.mainloop()
+

@@ -12,7 +12,147 @@ class App():
         self.window.title("Freezer's choice")
         self.reiniciar()
         self.buscaminas_ui = None
+<<<<<<< Updated upstream
 
+=======
+        self.conexion = sqlite3.connect("bm.db")
+        self.crear_db()
+        self.entryNombre = 0 #Contiene el nombre en la funcion ingresarNombre
+        self.usuario = ""
+        self.auxPopUp = ""
+        self.actualizacion = 0
+
+    def create_popup(self,logro):
+
+        #Se llama a la base de datos para saber que texto corresponde al popup
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()        
+        cursor.execute("SELECT nombre FROM Logros WHERE id = ?", (logro,))
+        #Texto del logro
+        res = cursor.fetchall()
+
+        popup = tkinter.Toplevel(self.window)
+        popup.geometry("200x100")  # Establece el tamaño de la ventana emergente
+
+        # Configura la ventana emergente sin borde
+        popup.overrideredirect(True)
+        popup.attributes('-topmost', 1)
+
+        # Obtiene el tamaño de la pantalla
+        screen_width = self.window.winfo_screenwidth()
+        screen_height = self.window.winfo_screenheight()
+
+        # Calcula las coordenadas x e y para que la ventana sea visible en su totalidad
+        popup_width = 200
+        popup_height = 150
+
+        x = screen_width - popup_width
+        y = screen_height - popup_height
+
+        if x < 0:
+            x = 0
+        if y < 0:
+            y = 0
+
+        # Posiciona la ventana emergente en la esquina inferior derecha
+        popup.geometry(f"{popup_width}x{popup_height}+{x}+{y}")
+
+        imagen_logro = PopUpImage(popup, f"../images/logro_{logro}.png")
+        self.auxPopUp = imagen_logro.new_pic
+        imagen_logro.label.pack()
+        label = tkinter.Label(popup, text=res[0], wraplength=150)
+        label.pack()
+        #Se autodestruye pasados los 2000 milis
+        popup.after(2000, popup.destroy)
+
+
+    #Funciones para conexiones DB
+    def crear_db(self):
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        try:
+            self.conexion.execute("CREATE TABLE Logros (id integer primary key autoincrement, nombre text, descripcion text)")
+            self.conexion.execute("CREATE TABLE Usuarios (id integer primary key autoincrement, nombre text, puntos integer)")
+            self.conexion.execute("CREATE TABLE Usuarios_Logros (nombreU text, idL integer)")
+            self.cargar_db()
+        except sqlite3.OperationalError:
+            pass
+        self.conexion.close()
+
+    def cargar_db(self):
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('La primera nunca se olvida', 'Logro obtenido por morir por primera vez')")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
+        self.conexion.commit()
+        self.conexion.close()
+
+    def ingresarNombre(self):
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()
+        texto = self.entryNombre.get()
+        self.usuario = texto 
+        try:
+            cursor.execute("SELECT nombre FROM Usuarios WHERE nombre = ?", (texto,))
+            res = cursor.fetchall()
+            if(res !=[]):
+                pass
+            else:
+                sql = "INSERT INTO Usuarios(nombre,puntos) values(?,?)"
+                try:
+                    self.conexion.execute(sql, (texto,0))
+                    self.conexion.commit()
+                except sqlite3.OperationalError:
+                    print("error")
+        except:
+            pass
+
+        self.conexion.close()
+        self.segundaEscena()
+
+    #Funcion que toma el valor de puntos de la base de datos de usuarios y los actualiza
+    def tomarpuntos(self):
+        print("Pidiendo puntos del usuario")
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()
+        cursor.execute("SELECT puntos FROM Usuarios WHERE nombre = ?", (self.usuario,))
+        res = cursor.fetchone()
+        res = res[0]
+        self.actualizacion = res + 1   #ESTO SOLO SUMA 1 POR DERROTA O VICTORIA, TODAVIA NO CUENTA
+        #HAY QUE VER COMO PASAR EL VALOR PUNTAJE DE BuscaminasUI ACA
+        cursor.execute("UPDATE Usuarios SET puntos = ? WHERE nombre = ?", (self.actualizacion, self.usuario,))
+        self.conexion.commit()
+        self.conexion.close()
+        print("izi ", self.actualizacion, self.usuario) #esto es para ver si sale todo bien (sacarlo despues)
+
+
+    def revisarPosesionLogro(self,logro):
+        print('Revisando si usuario : ' + self.usuario + ' posee este logro')
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()        
+        cursor.execute("SELECT nombreU,idL FROM Usuarios_Logros WHERE nombreU = ? AND idL = ?", (self.usuario, logro,))
+        res = cursor.fetchall()
+        self.conexion.close()
+        if(res != []):
+            print("Ya se encuentra en posesion del mismo")
+        else:
+            self.relacionarUsuarioLogro(logro)
+
+    def relacionarUsuarioLogro(self, logro):
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        self.conexion.execute("INSERT INTO Usuarios_Logros(nombreU,idL) values(?,?)", (self.usuario, logro))
+        self.conexion.commit()
+        print("LOGRO OBTENIDO! " + str(logro))
+        self.create_popup(logro)
+        self.conexion.close()
+
+    #Escenas buscaminas
+>>>>>>> Stashed changes
     def primeraEscena(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
@@ -125,6 +265,7 @@ class App():
 
     # Metodo para el boton de la segunda escena o no funciona como YO quiero
     def crear_boton_oh_no(self):
+        self.tomarpuntos()
         print("vamo bocaaaa")  # depuracion
         self.terceraEscenaBadEnding()
 
