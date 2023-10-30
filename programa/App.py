@@ -16,22 +16,23 @@ class App():
         self.buscaminas_ui = None
         self.conexion = sqlite3.connect("bm.db")
         self.crear_db()
-        self.entryNombre = 0 #Contiene el nombre en la funcion ingresarNombre
+        self.entryNombre = 0  # Contiene el nombre en la funcion ingresarNombre
         self.usuario = ""
         self.auxPopUp = ""
 
-    def create_popup(self,logro):
+    def create_popup(self, logro):
 
-        #Se llama a la base de datos para saber que texto corresponde al popup
+        # Se llama a la base de datos para saber que texto corresponde al popup
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
-        cursor = self.conexion.cursor()        
+        cursor = self.conexion.cursor()
         cursor.execute("SELECT nombre FROM Logros WHERE id = ?", (logro,))
-        #Texto del logro
+        # Texto del logro
         res = cursor.fetchall()
 
         popup = tkinter.Toplevel(self.window)
-        popup.geometry("200x100")  # Establece el tamaño de la ventana emergente
+        # Establece el tamaño de la ventana emergente
+        popup.geometry("200x100")
 
         # Configura la ventana emergente sin borde
         popup.overrideredirect(True)
@@ -61,17 +62,20 @@ class App():
         imagen_logro.label.pack()
         label = tkinter.Label(popup, text=res[0], wraplength=150)
         label.pack()
-        #Se autodestruye pasados los 2000 milis
+        # Se autodestruye pasados los 2000 milis
         popup.after(2000, popup.destroy)
 
+    # Funciones para conexiones DB
 
-    #Funciones para conexiones DB
     def crear_db(self):
         self.conexion.execute("PRAGMA foreign_keys = 1")
         try:
-            self.conexion.execute("CREATE TABLE Logros (id integer primary key autoincrement, nombre text, descripcion text)")
-            self.conexion.execute("CREATE TABLE Usuarios (id integer primary key autoincrement, nombre text, puntos integer)")
-            self.conexion.execute("CREATE TABLE Usuarios_Logros (nombreU text, idL integer)")
+            self.conexion.execute(
+                "CREATE TABLE Logros (id integer primary key autoincrement, nombre text, descripcion text)")
+            self.conexion.execute(
+                "CREATE TABLE Usuarios (id integer primary key autoincrement, nombre text, puntos integer)")
+            self.conexion.execute(
+                "CREATE TABLE Usuarios_Logros (nombreU text, idL integer)")
             self.cargar_db()
         except sqlite3.OperationalError:
             pass
@@ -80,9 +84,12 @@ class App():
     def cargar_db(self):
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
-        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('La primera nunca se olvida', 'Logro obtenido por morir por primera vez')")
-        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
-        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
+        self.conexion.execute(
+            "INSERT INTO Logros(nombre, descripcion) VALUES('La primera nunca se olvida', 'Logro obtenido por morir por primera vez')")
+        self.conexion.execute(
+            "INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
+        self.conexion.execute(
+            "INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
         self.conexion.commit()
         self.conexion.close()
 
@@ -91,16 +98,17 @@ class App():
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
         texto = self.entryNombre.get()
-        self.usuario = texto 
+        self.usuario = texto
         try:
-            cursor.execute("SELECT nombre FROM Usuarios WHERE nombre = ?", (texto,))
+            cursor.execute(
+                "SELECT nombre FROM Usuarios WHERE nombre = ?", (texto,))
             res = cursor.fetchall()
-            if(res !=[]):
+            if (res != []):
                 pass
             else:
                 sql = "INSERT INTO Usuarios(nombre,puntos) values(?,?)"
                 try:
-                    self.conexion.execute(sql, (texto,0))
+                    self.conexion.execute(sql, (texto, 0))
                     self.conexion.commit()
                 except sqlite3.OperationalError:
                     print("error")
@@ -110,15 +118,16 @@ class App():
         self.conexion.close()
         self.segundaEscena()
 
-    def revisarPosesionLogro(self,logro):
+    def revisarPosesionLogro(self, logro):
         print('Revisando si usuario : ' + self.usuario + ' posee este logro')
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
-        cursor = self.conexion.cursor()        
-        cursor.execute("SELECT nombreU,idL FROM Usuarios_Logros WHERE nombreU = ? AND idL = ?", (self.usuario, logro,))
+        cursor = self.conexion.cursor()
+        cursor.execute(
+            "SELECT nombreU,idL FROM Usuarios_Logros WHERE nombreU = ? AND idL = ?", (self.usuario, logro,))
         res = cursor.fetchall()
         self.conexion.close()
-        if(res != []):
+        if (res != []):
             print("Ya se encuentra en posesion del mismo")
         else:
             self.relacionarUsuarioLogro(logro)
@@ -126,13 +135,14 @@ class App():
     def relacionarUsuarioLogro(self, logro):
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
-        self.conexion.execute("INSERT INTO Usuarios_Logros(nombreU,idL) values(?,?)", (self.usuario, logro))
+        self.conexion.execute(
+            "INSERT INTO Usuarios_Logros(nombreU,idL) values(?,?)", (self.usuario, logro))
         self.conexion.commit()
         print("LOGRO OBTENIDO! " + str(logro))
         self.create_popup(logro)
         self.conexion.close()
 
-    #Escenas buscaminas
+    # Escenas buscaminas
     def primeraEscena(self):
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
@@ -270,7 +280,8 @@ class App():
 
     def crear_tablero_buscaminas(self):
         # Crea una instancia de Buscaminas
-        self.buscaminas = Buscaminas(filas=8, columnas=8, num_minas=10)
+        self.buscaminas = Buscaminas(
+            filas=2, columnas=2, num_minas=1)
         self.buscaminas.colocar_minas()
         self.buscaminas.inicializar_tablero()
 
@@ -395,6 +406,37 @@ class App():
         bottomText2 = tkinter.Label(
             frame, text="ven conmigo.")
         bottomText2.pack()
+        button = tkinter.Button(frame, text="Volver a jugar",
+                                command=lambda: self.reiniciar())
+        button.pack()
+
+        frame.pack()
+
+    def primeraEndingWithKrilin(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/freezerKrilin.jpeg")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="... Felicidades miserable sabandija, llevate al pelado.")
+        bottomText.pack()
+        button = tkinter.Button(frame, text="Vamonos Krilin...",
+                                command=self.segundaEndingWithKrilin)
+        button.pack()
+        frame.pack()
+
+    def segundaEndingWithKrilin(self):
+        self.clear()
+        frame = tkinter.Frame(self.window, bg="yellow")
+        bImg = BgImage(frame, "../images/jugadorKrilin.jpeg")
+        # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
+        self.aux = bImg.new_pic
+        bImg.label.pack()
+        bottomText = tkinter.Label(
+            frame, text="Fin.")
+        bottomText.pack()
         button = tkinter.Button(frame, text="Volver a jugar",
                                 command=lambda: self.reiniciar())
         button.pack()
