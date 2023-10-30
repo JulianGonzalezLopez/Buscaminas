@@ -6,6 +6,8 @@ class BuscaminasUI:
         self.root = root
         self.buscaminas = buscaminas
         self.app = app_instance
+        self.puntos = 0
+        self.puntaje = 0
         self.frame = tk.Frame(root)
         self.frame.pack()
 
@@ -44,13 +46,23 @@ class BuscaminasUI:
         
         """
 
+    def actuPuntaje(self, fila, columna):
+        if self.buscaminas.tablero[fila][columna] != -1:
+            self.puntos += 1
+        ##print("Puntaje:", self.puntos)    ## Mostrar contador en terminal
+        return self.puntos
+    
+
     def clic_en_casilla(self, fila, columna):
         # La casilla tiene una mina, el juego termina
         if self.buscaminas.tablero[fila][columna] == -1:
             self.mostrar_minas_al_perder()
+            self.puntaje = self.puntos
+            print("Puntos obtenidos ",self.puntaje)
         # La casilla no tiene una mina, descubre la casilla
         else:
             self.buscaminas.cubiertas[fila][columna] = False
+            self.actuPuntaje(fila, columna)
             self.botones[fila][columna]["state"] = "disabled"
             minas_cercanas = self.buscaminas.contar_minas_cercanas(
                 fila, columna)

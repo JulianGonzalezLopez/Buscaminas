@@ -19,6 +19,7 @@ class App():
         self.entryNombre = 0  # Contiene el nombre en la funcion ingresarNombre
         self.usuario = ""
         self.auxPopUp = ""
+        self.actualizacion = 0
 
     def create_popup(self, logro):
 
@@ -118,6 +119,21 @@ class App():
 
         self.conexion.close()
         self.segundaEscena()
+    #Funcion que toma el valor de puntos de la base de datos de usuarios y los actualiza
+    def tomarPuntos(self):
+        print("Pidiendo puntos del usuario")
+        self.conexion = sqlite3.connect("bm.db")
+        self.conexion.execute("PRAGMA foreign_keys = 1")
+        cursor = self.conexion.cursor()
+        cursor.execute("SELECT puntos FROM Usuarios WHERE nombre = ?", (self.usuario,))
+        res = cursor.fetchone()
+        res = res[0]
+        self.actualizacion = res + self.buscaminas_ui.puntaje  
+        print(res ,"VALOR TOTAL")
+        cursor.execute("UPDATE Usuarios SET puntos = ? WHERE nombre = ?", (self.actualizacion, self.usuario,))
+        self.conexion.commit()
+        self.conexion.close()
+        print("Base de datos actualizada: Usuario: ",self.usuario,"Puntos: ", self.actualizacion) #mensaje en consola para comprobar que se actualizaron los datos en la base
 
     def revisarPosesionLogro(self, logro):
         print('Revisando si usuario : ' + self.usuario + ' posee este logro')
@@ -257,6 +273,7 @@ class App():
 
     # Metodo para el boton de la segunda escena o no funciona como YO quiero
     def crear_boton_oh_no(self):
+        self.tomarPuntos()
         print("vamo bocaaaa")  # depuracion
         self.terceraEscenaBadEnding()
 
