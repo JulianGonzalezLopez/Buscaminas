@@ -60,7 +60,7 @@ class App():
         imagen_logro = PopUpImage(popup, f"../images/logro_{logro}.png")
         self.auxPopUp = imagen_logro.new_pic
         imagen_logro.label.pack()
-        label = tkinter.Label(popup, text=res[0], wraplength=150)
+        label = tkinter.Label(popup, text=res[0][0], wraplength=150)
         label.pack()
         # Se autodestruye pasados los 2000 milis
         popup.after(2000, popup.destroy)
@@ -90,6 +90,7 @@ class App():
             "INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
         self.conexion.execute(
             "INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Pelado matero', 'Logro obtenido por reventarle la cabeza al pelado blanco y tomarte unos mates')")
         self.conexion.commit()
         self.conexion.close()
 
@@ -422,12 +423,13 @@ class App():
         bottomText = tkinter.Label(
             frame, text="... Felicidades miserable sabandija, llevate al pelado.")
         bottomText.pack()
-        button = tkinter.Button(frame, text="Vamonos Krilin...",
+        button = tkinter.Button(frame, text="Vamonos Krilin...a tomar unos mates",
                                 command=self.segundaEndingWithKrilin)
         button.pack()
         frame.pack()
 
     def segundaEndingWithKrilin(self):
+        self.revisarPosesionLogro(4)
         self.clear()
         frame = tkinter.Frame(self.window, bg="yellow")
         bImg = BgImage(frame, "../images/jugadorKrilin.jpeg")
