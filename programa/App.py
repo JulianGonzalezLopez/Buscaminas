@@ -129,7 +129,7 @@ class App():
         res = cursor.fetchone()
         res = res[0]
         self.actualizacion = res + self.buscaminas_ui.puntaje  
-        print(res ,"VALOR TOTAL")
+        print(res ,"VALOR ACTUAL PUNTOS")
         cursor.execute("UPDATE Usuarios SET puntos = ? WHERE nombre = ?", (self.actualizacion, self.usuario,))
         self.conexion.commit()
         self.conexion.close()
@@ -432,6 +432,7 @@ class App():
 
     def primeraEndingWithKrilin(self):
         self.clear()
+        self.tomarPuntos()
         frame = tkinter.Frame(self.window, bg="yellow")
         bImg = BgImage(frame, "../images/freezerKrilin.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso

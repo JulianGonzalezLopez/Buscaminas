@@ -134,6 +134,8 @@ class BuscaminasUI:
                 self.frame, text="Que fácil", command=self.app.primeraEndingWithKrilin)
             boton_facil.grid(row=self.buscaminas.filas, column=0,
                              columnspan=self.buscaminas.columnas)
+            self.puntaje = self.puntos
+            print("Puntos obtenidos ganando",self.puntaje)
 
     def obtener_fila_columna(self, boton):
         # Obtiene la información de la cuadrícula del botón
