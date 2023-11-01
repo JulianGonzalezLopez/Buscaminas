@@ -7,6 +7,7 @@ Para correr este proyecto necesitaras los siguientes programas / librerias insta
 - Python (Fue desarrollado con la version 3.12)
 - Libreria PIL / Pillow
 - SQLite3 (Viene por defecto en la standard library desde la versión 2.5)
+- Fuente  "A Goblin Appears!"(proporcionada en los archivos)
 
 ## Clases
 

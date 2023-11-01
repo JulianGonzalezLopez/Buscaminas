@@ -5,13 +5,13 @@ from PopUpImage import PopUpImage
 from Buscaminas import Buscaminas
 from BuscaminasUI import BuscaminasUI
 import sqlite3
-# depurar
 
 
 class App():
     def __init__(self):
         self.window = tkinter.Tk()
-        self.window.geometry("405x580")
+        self.window.geometry("704x1000")
+        self.window.resizable(False, False)
         self.window.title("Freezer's choice")
         self.reiniciar()
         self.buscaminas_ui = None
@@ -20,7 +20,7 @@ class App():
         self.entryNombre = 0  # Contiene el nombre en la funcion ingresarNombre
         self.usuario = ""
         self.auxPopUp = ""
-        self.actualizacion = 0
+        self.actualizacion = 0 
 
     def create_popup(self, logro):
 
@@ -92,8 +92,7 @@ class App():
             "INSERT INTO Logros(nombre, descripcion) VALUES('Leo Mateolis', 'Logro obtenido por tomarte unos mates con Freezer')")
         self.conexion.execute(
             "INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
-        self.conexion.execute(
-            "INSERT INTO Logros(nombre, descripcion) VALUES('Pelado matero', 'Logro obtenido por reventarle la cabeza al pelado blanco y tomarte unos mates')")
+        self.conexion.execute("INSERT INTO Logros(nombre, descripcion) VALUES('Pelado matero', 'Logro obtenido por reventarle la cabeza al pelado blanco y tomarte unos mates')")
         self.conexion.commit()
         self.conexion.close()
 
@@ -121,26 +120,21 @@ class App():
 
         self.conexion.close()
         self.segundaEscena()
-    # Funcion que toma el valor de puntos de la base de datos de usuarios y los actualiza
-
+    #Funcion que toma el valor de puntos de la base de datos de usuarios y los actualiza
     def tomarPuntos(self):
         print("Pidiendo puntos del usuario")
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
-        cursor.execute(
-            "SELECT puntos FROM Usuarios WHERE nombre = ?", (self.usuario,))
+        cursor.execute("SELECT puntos FROM Usuarios WHERE nombre = ?", (self.usuario,))
         res = cursor.fetchone()
         res = res[0]
-        self.actualizacion = res + self.buscaminas_ui.puntaje
-        print(res, "VALOR ACTUAL PUNTOS")
-        cursor.execute("UPDATE Usuarios SET puntos = ? WHERE nombre = ?",
-                       (self.actualizacion, self.usuario,))
+        self.actualizacion = res + self.buscaminas_ui.puntaje  
+        print(res ,"VALOR ACTUAL PUNTOS")
+        cursor.execute("UPDATE Usuarios SET puntos = ? WHERE nombre = ?", (self.actualizacion, self.usuario,))
         self.conexion.commit()
         self.conexion.close()
-        # mensaje en consola para comprobar que se actualizaron los datos en la base
-        print("Base de datos actualizada: Usuario: ",
-              self.usuario, "Puntos: ", self.actualizacion)
+        print("Base de datos actualizada: Usuario: ",self.usuario,"Puntos: ", self.actualizacion) #mensaje en consola para comprobar que se actualizaron los datos en la base
 
     def revisarPosesionLogro(self, logro):
         print('Revisando si usuario : ' + self.usuario + ' posee este logro')
@@ -169,60 +163,60 @@ class App():
     # Escenas buscaminas
     def primeraEscena(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/pensativo.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
 
-        bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto")
-        bottomText.pack()
+        bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto", font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,0))
 
-        self.entryNombre = ttk.Entry(frame)
-        self.entryNombre.pack()
+        self.entryNombre = ttk.Entry(frame, width=35)
+        self.entryNombre.pack(pady=(10,10))
 
-        button = tkinter.Button(frame, text="Ingresar",
-                                command=lambda: self.ingresarNombre())
+        button = tkinter.Button(frame, text="Ingresar", 
+                                command=lambda: self.ingresarNombre(), font=("A Goblin Appears!", 15), fg="purple")
         button.pack()
 
         frame.pack()
 
     def segundaEscena(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/riendo.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
 
         bottomText = tkinter.Label(
-            frame, text="Esto...¿Piensas que puedes ganarle al gran Lord Freezer?")
-        bottomText.pack()
+            frame, text="Esto...¿Piensas que puedes ganarle al \ngran Lord Freezer?",font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,5))
 
         buttonBad = tkinter.Button(
-            frame, text="Si, he venido a rescatar al cabeza de rodilla", command=lambda: self.primerEscenaBadEnding())
-        buttonBad.pack()
+            frame, text="Si, he venido a \nrescatar al cabeza de rodilla",font=("A Goblin Appears!", 13),fg="purple", command=lambda: self.primerEscenaBadEnding())
+        buttonBad.pack(pady=(5,20))
         buttonGood = tkinter.Button(
-            frame, text="No, vine por vos", command=lambda: self.primeraEscenaGoodEnding())
+            frame, text="No, vine por vos",font=("A Goblin Appears!", 13),fg="purple", command=lambda: self.primeraEscenaGoodEnding())
         buttonGood.pack()
 
         frame.pack()
 
     def primeraEscenaGoodEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/sonrojado.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¡Simio insolente! ¡¿Crees que podras amistarte con el GRAN LORD FREEZER?!")
+            frame, text="¡Simio insolente! \n¡¿Crees que podras amistarte con el \nGRAN LORD FREEZER?!",font=("A Goblin Appears!", 14) )
         bottomText.pack()
         buttonBad = tkinter.Button(
-            frame, text="Si, vamos a tomar unos mateicos", command=lambda: self.segundaEscenaGoodEnding())
-        buttonBad.pack()
+            frame, text="Si, vamos a tomar unos mateicos",font=("A Goblin Appears!", 13),fg="purple", command=lambda: self.segundaEscenaGoodEnding())
+        buttonBad.pack(pady=(10,10))
         buttonGood = tkinter.Button(
-            frame, text="No, tienes razón, solo me interesa el cabeza de rodilla", command=lambda: self.primerEscenaBadEnding())
+            frame, text="No, tienes razón, solo me interesa\nel cabeza de rodilla",font=("A Goblin Appears!", 13),fg="purple", command=lambda: self.primerEscenaBadEnding())
         buttonGood.pack()
 
         frame.pack()
@@ -230,45 +224,45 @@ class App():
     def segundaEscenaGoodEnding(self):
         self.clear()
         self.revisarPosesionLogro(2)
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/mate1.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="Muchas gracias, necesitaba esto")
-        bottomText.pack()
+            frame, text="Muchas gracias, necesitaba esto",font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="Reiniciar",
-                                command=lambda: self.reiniciar())
+                                font=("A Goblin Appears!", 13),fg="purple",command=lambda: self.reiniciar())
         button.pack()
 
         frame.pack()
 
     def primerEscenaBadEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/triste.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¿En serio solo te importa el pelado?")
-        bottomText.pack()
+            frame, text="¿En serio solo te importa el pelado?",font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="Si...",
-                                command=lambda: self.segundaEscenaBadEnding())
+                                font=("A Goblin Appears!", 13),fg="purple",command=lambda: self.segundaEscenaBadEnding())
         button.pack()
 
         frame.pack()
 
     def segundaEscenaBadEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window,)
         bImg = BgImage(frame, "../images/enojado.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
-        bottomText = tkinter.Label(frame, text="Entonces...MUERE")
-        bottomText.pack()
+        bottomText = tkinter.Label(frame, text="Entonces...MUERE", font=("A Goblin Appears!", 20))
+        bottomText.pack(pady=(10,10))
         frame.pack()
 
         # Creo e inicializo el tablero, actualizo la ventana para que ande.
@@ -298,15 +292,15 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.place(x=0, y=0)
         self.buttonIniciar = tkinter.Button(
-            self.window, text="Iniciar", command=lambda: self.primeraEscena())
-        self.buttonIniciar.place(x=190, y=278)
+            self.window, text="Iniciar",font=("A Goblin Appears!", 20, ),fg="purple", command=lambda: self.primeraEscena())
+        self.buttonIniciar.place(x=268, y=652)
 
     # Buscaminas
 
     def crear_tablero_buscaminas(self):
         # Crea una instancia de Buscaminas
         self.buscaminas = Buscaminas(
-            filas=2, columnas=2, num_minas=1)
+            filas=8, columnas=8, num_minas=16)
         self.buscaminas.colocar_minas()
         self.buscaminas.inicializar_tablero()
 
@@ -320,99 +314,87 @@ class App():
 
     def terceraEscenaBadEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/derrotaJugador.jpeg")
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="Tocaste al pelado, perdiste... el pelado es MÍO")
-        bottomText.pack()
+            frame, text="Tocaste al pelado, perdiste... \nel pelado es MÍO",font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,10))
 
         # Reinicio buscaminas
         reiniciar_button = tkinter.Button(
-            frame, text="Intentar salvar al pelado una vez más ", command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
+            frame, text="Intentar salvar al pelado una vez más ",font=("A Goblin Appears!", 13),fg="purple", command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
         reiniciar_button.pack()
 
         # Me gustó
         love_ending_button = tkinter.Button(
-            frame, text="Me gustó...", command=self.primeraEscenaLoveEnding)
-        love_ending_button.pack()
+            frame, text="Me gustó...",font=("A Goblin Appears!", 13),fg="purple", command=self.primeraEscenaLoveEnding)
+        love_ending_button.pack(pady=(10,0))
 
         frame.pack()
-
+    
     def primeraEscenaLoveEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/freezerBaka.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¿E- esto... acaso crees que puedes hacer que")
-        bottomText.pack()
-        bottomText2 = tkinter.Label(
-            frame, text="EL GRAN EMPERADOR DEL UNIVERSO LORD FREEZER se ")
-        bottomText2.pack()
-        bottomText3 = tkinter.Label(
-            frame, text="interese por una miserable y estupida sabandija como tú?")
-        bottomText3.pack()
+            frame, text="¿E- esto... \nacaso crees que puedes hacer que\nEL GRAN EMPERADOR DEL UNIVERSO LORD FREEZER \nse interese por una miserable \ny estupida sabandija como tú?",font=("A Goblin Appears!", 11))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="Si...",
-                                command=self.segundaEscenaLoveEnding)
+                                font=("A Goblin Appears!", 13),fg="purple",command=self.segundaEscenaLoveEnding)
         button.pack()
         frame.pack()
 
     def segundaEscenaLoveEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/freezerTentado.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¿Ooh... miserable sabandija...")
-        bottomText.pack()
-        bottomText2 = tkinter.Label(
-            frame, text="para ganar mi afecto se me ocurren ")
-        bottomText2.pack()
-        bottomText3 = tkinter.Label(
-            frame, text="algunas opciones que podrías tratar de realizar")
-        bottomText3.pack()
+            frame, text="¿Ooh... miserable sabandija...\npara ganar mi afecto se me ocurren\nalgunas opciones que \npodrías tratar de realizar",font=("A Goblin Appears!", 13))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="¿Cuáles?",
-                                command=self.terceraEscenaLoveEnding)
+                                font=("A Goblin Appears!", 13),fg="purple",command=self.terceraEscenaLoveEnding)
         button.pack()
         frame.pack()
 
     def terceraEscenaLoveEnding(self):
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/riendo.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="MORIR, MORIR O MORIR, ¿CUÁL PREFIERES SABANDIJA? JAJAJAJA")
+            frame, text="MORIR, MORIR O MORIR\n¿CUÁL PREFIERES SABANDIJA? JAJAJAJA", font=("A Goblin Appears!", 13))
         bottomText.pack()
         button = tkinter.Button(
-            frame, text="MORIR", command=self.escenaBadLoveEnding)
-        button.pack()
+            frame, text="MORIR",font=("A Goblin Appears!", 13),fg="purple", command=self.escenaBadLoveEnding)
+        button.pack(pady=(10,10))
         button = tkinter.Button(
-            frame, text="Prefiero tu amor", command=self.cuartaEscenaLoveEnding)
+            frame, text="Prefiero tu amor",font=("A Goblin Appears!", 13),fg="purple", command=self.cuartaEscenaLoveEnding)
         button.pack()
         frame.pack()
 
     def escenaBadLoveEnding(self):
         self.clear()
         self.revisarPosesionLogro(1)
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/badLoveEndingFreezer.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¡MUERE INSECTO!")
+            frame, text="¡MUERE INSECTO!",font=("A Goblin Appears!", 14))
         bottomText.pack()
         button = tkinter.Button(frame, text="Reiniciar",
-                                command=lambda: self.reiniciar())
+                                font=("A Goblin Appears!", 13),fg="purple",command=lambda: self.reiniciar())
         button.pack()
 
         frame.pack()
@@ -420,19 +402,16 @@ class App():
     def cuartaEscenaLoveEnding(self):
         self.clear()
         self.revisarPosesionLogro(3)
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/freezerEnamorado.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="Oh... está bien, podremos gobernar juntos el universo a nuestro antojo,")
-        bottomText.pack()
-        bottomText2 = tkinter.Label(
-            frame, text="ven conmigo.")
-        bottomText2.pack()
+            frame, text="Oh... está bien,\npodremos gobernar juntos el universo\na nuestro antojo,\nven conmigo",font=("A Goblin Appears!", 13))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="Volver a jugar",
-                                command=lambda: self.reiniciar())
+                                font=("A Goblin Appears!", 13),fg="purple",command=lambda: self.reiniciar())
         button.pack()
 
         frame.pack()
@@ -440,32 +419,32 @@ class App():
     def primeraEndingWithKrilin(self):
         self.clear()
         self.tomarPuntos()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/freezerKrilin.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="... Felicidades miserable sabandija, llevate al pelado.")
-        bottomText.pack()
+            frame, text="... Felicidades miserable sabandija,\nllevate al pelado.",font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="Vamonos Krilin...a tomar unos mates",
-                                command=self.segundaEndingWithKrilin)
+                                font=("A Goblin Appears!", 13),fg="purple",command=self.segundaEndingWithKrilin)
         button.pack()
         frame.pack()
 
     def segundaEndingWithKrilin(self):
         self.revisarPosesionLogro(4)
         self.clear()
-        frame = tkinter.Frame(self.window, bg="yellow")
+        frame = tkinter.Frame(self.window)
         bImg = BgImage(frame, "../images/jugadorKrilin.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="Fin.")
-        bottomText.pack()
+            frame, text="Fin.",font=("A Goblin Appears!", 14))
+        bottomText.pack(pady=(10,10))
         button = tkinter.Button(frame, text="Volver a jugar",
-                                command=lambda: self.reiniciar())
+                                font=("A Goblin Appears!", 13),fg="purple",command=lambda: self.reiniciar())
         button.pack()
 
         frame.pack()
