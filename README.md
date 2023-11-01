@@ -2,6 +2,13 @@
 
 Este proyecto es una implementación simple del juego Buscaminas con una interfaz gráfica desarrollada en Python y la biblioteca Tkinter. El juego consta de tres partes principales: la aplicación de la interfaz gráfica, la lógica del juego Buscaminas y una interfaz de usuario para el juego.
 
+## Dependencias
+Para correr este proyecto necesitaras los siguientes programas / librerias instalados:
+- Python (Fue desarrollado con la version 3.12)
+- Libreria PIL / Pillow
+- SQLite3 (Viene por defecto en la standard library desde la versión 2.5)
+- Fuente  "A Goblin Appears!"(proporcionada en los archivos)
+
 ## Clases
 
 ### Clase `App` (App.py)
