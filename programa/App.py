@@ -1,8 +1,10 @@
 import tkinter
 from tkinter import ttk
 from BgImage import BgImage
+from PopUpImage import PopUpImage
 from Buscaminas import Buscaminas
 from BuscaminasUI import BuscaminasUI
+import sqlite3
 
 
 class App():
@@ -13,9 +15,6 @@ class App():
         self.window.title("Freezer's choice")
         self.reiniciar()
         self.buscaminas_ui = None
-<<<<<<< Updated upstream
-
-=======
         self.conexion = sqlite3.connect("bm.db")
         self.crear_db()
         self.entryNombre = 0  # Contiene el nombre en la funcion ingresarNombre
@@ -162,7 +161,6 @@ class App():
         self.conexion.close()
 
     # Escenas buscaminas
->>>>>>> Stashed changes
     def primeraEscena(self):
         self.clear()
         frame = tkinter.Frame(self.window)
@@ -174,19 +172,11 @@ class App():
         bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto", font=("A Goblin Appears!", 14))
         bottomText.pack(pady=(10,0))
 
-<<<<<<< Updated upstream
-        entry = ttk.Entry(frame)
-        entry.pack()
-
-        button = tkinter.Button(frame, text="Ingresar",
-                                command=lambda: self.segundaEscena())
-=======
         self.entryNombre = ttk.Entry(frame, width=35)
         self.entryNombre.pack(pady=(10,10))
 
         button = tkinter.Button(frame, text="Ingresar", 
                                 command=lambda: self.ingresarNombre(), font=("A Goblin Appears!", 15), fg="purple")
->>>>>>> Stashed changes
         button.pack()
 
         frame.pack()
@@ -233,12 +223,8 @@ class App():
 
     def segundaEscenaGoodEnding(self):
         self.clear()
-<<<<<<< Updated upstream
-        frame = tkinter.Frame(self.window, bg="yellow")
-=======
         self.revisarPosesionLogro(2)
         frame = tkinter.Frame(self.window)
->>>>>>> Stashed changes
         bImg = BgImage(frame, "../images/mate1.png")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
@@ -288,6 +274,7 @@ class App():
 
     # Metodo para el boton de la segunda escena o no funciona como YO quiero
     def crear_boton_oh_no(self):
+        self.tomarPuntos()
         print("vamo bocaaaa")  # depuracion
         self.terceraEscenaBadEnding()
 
@@ -312,12 +299,8 @@ class App():
 
     def crear_tablero_buscaminas(self):
         # Crea una instancia de Buscaminas
-<<<<<<< Updated upstream
-        self.buscaminas = Buscaminas(filas=8, columnas=8, num_minas=10)
-=======
         self.buscaminas = Buscaminas(
             filas=8, columnas=8, num_minas=16)
->>>>>>> Stashed changes
         self.buscaminas.colocar_minas()
         self.buscaminas.inicializar_tablero()
 
@@ -401,12 +384,8 @@ class App():
 
     def escenaBadLoveEnding(self):
         self.clear()
-<<<<<<< Updated upstream
-        frame = tkinter.Frame(self.window, bg="yellow")
-=======
         self.revisarPosesionLogro(1)
         frame = tkinter.Frame(self.window)
->>>>>>> Stashed changes
         bImg = BgImage(frame, "../images/badLoveEndingFreezer.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
@@ -422,12 +401,8 @@ class App():
 
     def cuartaEscenaLoveEnding(self):
         self.clear()
-<<<<<<< Updated upstream
-        frame = tkinter.Frame(self.window, bg="yellow")
-=======
         self.revisarPosesionLogro(3)
         frame = tkinter.Frame(self.window)
->>>>>>> Stashed changes
         bImg = BgImage(frame, "../images/freezerEnamorado.jpeg")
         # Si eliminamos esto deja de andar el programa por el recolector de basura y coso
         self.aux = bImg.new_pic
@@ -441,8 +416,6 @@ class App():
 
         frame.pack()
 
-<<<<<<< Updated upstream
-=======
     def primeraEndingWithKrilin(self):
         self.clear()
         self.tomarPuntos()
@@ -476,7 +449,6 @@ class App():
 
         frame.pack()
 
->>>>>>> Stashed changes
 
 if __name__ == "__main__":
     app = App()

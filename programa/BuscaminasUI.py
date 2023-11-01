@@ -6,6 +6,8 @@ class BuscaminasUI:
         self.root = root
         self.buscaminas = buscaminas
         self.app = app_instance
+        self.puntos = 0
+        self.puntaje = 0
         self.frame = tk.Frame(root)
         self.frame.pack()
 
@@ -18,6 +20,7 @@ class BuscaminasUI:
             for columna in range(self.buscaminas.columnas):
                 boton = tk.Button(self.frame, text=" ", width=2, height=1,
                                   command=lambda f=fila, c=columna: self.clic_en_casilla(f, c))
+                boton.bind("<Button-3>", self.marcar_con_bandera)
                 boton.grid(row=fila, column=columna)
                 fila_botones.append(boton)
             self.botones.append(fila_botones)
@@ -43,19 +46,23 @@ class BuscaminasUI:
         
         """
 
+    def actuPuntaje(self, fila, columna):
+        if self.buscaminas.tablero[fila][columna] != -1:
+            self.puntos += 1
+        ##print("Puntaje:", self.puntos)    ## Mostrar contador en terminal
+        return self.puntos
+    
+
     def clic_en_casilla(self, fila, columna):
         # La casilla tiene una mina, el juego termina
         if self.buscaminas.tablero[fila][columna] == -1:
             self.mostrar_minas_al_perder()
-<<<<<<< Updated upstream
-
-=======
             self.puntaje = self.puntos
             print("Puntos obtenidos perdiendo",self.puntaje)
->>>>>>> Stashed changes
         # La casilla no tiene una mina, descubre la casilla
         else:
             self.buscaminas.cubiertas[fila][columna] = False
+            self.actuPuntaje(fila, columna)
             self.botones[fila][columna]["state"] = "disabled"
             minas_cercanas = self.buscaminas.contar_minas_cercanas(
                 fila, columna)
@@ -65,6 +72,8 @@ class BuscaminasUI:
             # Mostrar el número de minas cercanas en la casilla
             elif minas_cercanas > 0:
                 self.botones[fila][columna]["text"] = str(minas_cercanas)
+            # Llamar a verificar_victoria después de descubrir una casilla
+            self.verificar_victoria()
 
     def descubrir_casilla(self, fila, columna):
         self.botones[fila][columna]["state"] = "disabled"
@@ -91,8 +100,6 @@ class BuscaminasUI:
         # Ajusto estilos
         oh_no_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
-<<<<<<< Updated upstream
-=======
     def marcar_con_bandera(self, event):
         boton = event.widget  # Obtiene el widget (botón) que generó el evento
 
@@ -137,7 +144,6 @@ class BuscaminasUI:
         columna = info["column"]
         return fila, columna
 
->>>>>>> Stashed changes
     def reiniciar_juego(self):
         # Limpia el tablero del Buscaminas actual
         self.buscaminas.colocar_minas()
