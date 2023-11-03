@@ -58,7 +58,7 @@ class BuscaminasUI:
         if self.buscaminas.tablero[fila][columna] == -1:
             self.mostrar_minas_al_perder()
             self.puntaje = self.puntos
-            print("Puntos obtenidos perdiendo",self.puntaje)
+            print("Puntos obtenidos ",self.puntaje)
         # La casilla no tiene una mina, descubre la casilla
         else:
             self.buscaminas.cubiertas[fila][columna] = False
@@ -96,7 +96,7 @@ class BuscaminasUI:
 
         # Creo el botón y lo asocio al metodo de la clase app
         oh_no_button = tk.Button(
-            oh_no_frame, text="Oh no...",font=("A Goblin Appears!", 13),fg="purple", command=self.app.crear_boton_oh_no)
+            oh_no_frame, text="Oh no...", command=self.app.crear_boton_oh_no)
         # Ajusto estilos
         oh_no_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
@@ -131,8 +131,8 @@ class BuscaminasUI:
         if todas_descubiertas:
             # Crear un botón "Que fácil" y asociarlo a terceraEscenaBadEnding
             boton_facil = tk.Button(
-                self.frame, text="Que fácil",font=("A Goblin Appears!", 13),fg="purple", command=self.app.primeraEndingWithKrilin)
-            boton_facil.grid(row=self.buscaminas.filas, column=0,pady=(10,0),
+                self.frame, text="Que fácil", command=self.app.primeraEndingWithKrilin)
+            boton_facil.grid(row=self.buscaminas.filas, column=0,
                              columnspan=self.buscaminas.columnas)
             self.puntaje = self.puntos
             print("Puntos obtenidos ganando",self.puntaje)
