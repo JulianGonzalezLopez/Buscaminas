@@ -23,9 +23,10 @@ Para correr este proyecto necesitaras los siguientes programas / librerias insta
 
 ## Reglas buscaminas
 Para que se de como ganador al jugador tiene que cumplir con los siguientes puntos
-1. No haber clickeado ninguna mina
-2. Haber clickeado todas las casillas no minas
-3. Haber puesto banderines con el click derecho en todas las minas
+1. Clickear todos las las casillas no minas
+2. Al clickear en una bomba el usuario pierde y tiene la posibilidad de volver a jugar o seguir con la historia
+3. Aclaracion: para llegar al buscaminas uno ha de tener una serie de conversaciones con freezer, una de las combinaciones posibles es:
+   "Iniciar" => "Ingresar" => "Si, he venido a rescatar al cabeza de rodilla" => "Si..." => 💣Buscaminas💣
 
 ## Clases
 
