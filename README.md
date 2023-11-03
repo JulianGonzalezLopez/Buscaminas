@@ -21,7 +21,7 @@ Para correr este proyecto necesitaras los siguientes programas / librerias insta
 4. Presiona "Iniciar" y disfruta del juego
 5. Aclaraciones: este juego tiene un sistema de logros y un sistema de puntos, los cuales van ligados a la persona. Si vuelves a jugar, aumentaras la cantidad de puntos pero los logros son de obtención unica
 
-##Reglas buscaminas
+## Reglas buscaminas
 Para que se de como ganador al jugador tiene que cumplir con los siguientes puntos
 1. No haber clickeado ninguna mina
 2. Haber clickeado todas las casillas no minas
