@@ -8,6 +8,15 @@ Para correr este proyecto necesitaras los siguientes programas / librerias insta
 - Libreria PIL / Pillow
 - SQLite3 (Viene por defecto en la standard library desde la versión 2.5)
 
+## Manual de usuario
+1. Descargar e instalar Python desde https://www.python.org/downloads/
+2. Poner los ejecutables de python en el path https://www.youtube.com/watch?v=5YKZ03ZcvLo
+3. Instalar pillow mediante PIP usando el comando "pip install pillow"
+4. Clonar este repositorio mediante el comando "git clone https://github.com/JulianGonzalezLopez/Buscaminas.git" o descargando el .ZIP
+5. Abrir la carpeta en Visual Studio Code
+6. Desde la terminal, ir a la carpeta programa mediante el comando "cd programa"
+7. Desde la terminal, ejecutar el programa escribiendo "python app.py"
+
 ## Clases
 
 ### Clase `App` (App.py)
