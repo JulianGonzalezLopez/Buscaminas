@@ -49,16 +49,15 @@ class BuscaminasUI:
     def actuPuntaje(self, fila, columna):
         if self.buscaminas.tablero[fila][columna] != -1:
             self.puntos += 1
-        ##print("Puntaje:", self.puntos)    ## Mostrar contador en terminal
+        # print("Puntaje:", self.puntos)    ## Mostrar contador en terminal
         return self.puntos
-    
 
     def clic_en_casilla(self, fila, columna):
         # La casilla tiene una mina, el juego termina
         if self.buscaminas.tablero[fila][columna] == -1:
             self.mostrar_minas_al_perder()
             self.puntaje = self.puntos
-            print("Puntos obtenidos ",self.puntaje)
+            print("Puntos obtenidos ", self.puntaje)
         # La casilla no tiene una mina, descubre la casilla
         else:
             self.buscaminas.cubiertas[fila][columna] = False
@@ -69,6 +68,8 @@ class BuscaminasUI:
             # No hay minas cercanas, explorar casillas adyacentes
             if minas_cercanas == 0:
                 self.buscaminas.explore_casillas_adyacentes(fila, columna)
+                # Establecer el texto del botón en "0" cuando no hay minas cercanas
+                self.botones[fila][columna]["text"] = "0"
             # Mostrar el número de minas cercanas en la casilla
             elif minas_cercanas > 0:
                 self.botones[fila][columna]["text"] = str(minas_cercanas)
@@ -117,12 +118,7 @@ class BuscaminasUI:
                 valor = self.buscaminas.tablero[fila][columna]
                 texto = boton["text"]
 
-                if valor == -1:
-                    # Casilla con mina, debe estar marcada con bandera
-                    if texto != "🚩":
-                        todas_descubiertas = False
-                        break
-                else:
+                if valor != -1:
                     # Casilla sin mina, debe estar descubierta
                     if texto == " ":
                         todas_descubiertas = False
@@ -135,7 +131,7 @@ class BuscaminasUI:
             boton_facil.grid(row=self.buscaminas.filas, column=0,
                              columnspan=self.buscaminas.columnas)
             self.puntaje = self.puntos
-            print("Puntos obtenidos ganando",self.puntaje)
+            print("Puntos obtenidos ganando", self.puntaje)
 
     def obtener_fila_columna(self, boton):
         # Obtiene la información de la cuadrícula del botón
