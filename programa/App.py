@@ -325,7 +325,7 @@ class App():
     def crear_tablero_buscaminas(self):
         # Crea una instancia de Buscaminas
         self.buscaminas = Buscaminas(
-            filas=5, columnas=5, num_minas=0)
+            filas=5, columnas=5, num_minas=3)
         self.buscaminas.colocar_minas()
         self.buscaminas.inicializar_tablero()
 
