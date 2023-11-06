@@ -14,12 +14,9 @@ class App():
         self.window.geometry("405x580")
         self.window.title("Freezer's choice")
         self.window.resizable(False, False)
-
+        ttk.Style().configure("Treeview.Heading", font=("A Goblin Appears!", 8))
         self.defaultFont = font.nametofont("TkDefaultFont") 
-  
         self.defaultFont.configure(family="A Goblin Appears!",size=8) 
-
-
         self.reiniciar()
         self.buscaminas_ui = None
         self.conexion = sqlite3.connect("bm.db")
@@ -69,7 +66,7 @@ class App():
         imagen_logro = PopUpImage(popup, f"../images/logro_{logro}.png")
         self.auxPopUp = imagen_logro.new_pic
         imagen_logro.label.pack()
-        label = tkinter.Label(popup, text=res[0][0], wraplength=150)
+        label = tkinter.Label(popup, text=res[0][0], wraplength=190)
         label.pack()
         # Se autodestruye pasados los 2000 milis
         popup.after(2000, popup.destroy)
@@ -101,6 +98,8 @@ class App():
             "INSERT INTO Logros(nombre, descripcion) VALUES('Kinda gay', 'Logro obtenido por casarte con el emperador galactico')")
         self.conexion.execute(
             "INSERT INTO Logros(nombre, descripcion) VALUES('Pelado matero', 'Logro obtenido por reventarle la cabeza al pelado blanco y tomarte unos mates')")
+        self.conexion.execute(
+            "INSERT INTO Logros(nombre, descripcion) VALUES('1 a 5 Caracteres', 'auxiliar para verificar datos')")
         self.conexion.commit()
         self.conexion.close()
 
@@ -110,24 +109,27 @@ class App():
         cursor = self.conexion.cursor()
         texto = self.entryNombre.get()
         self.usuario = texto
-        try:
-            cursor.execute(
-                "SELECT nombre FROM Usuarios WHERE nombre = ?", (texto,))
-            res = cursor.fetchall()
-            if (res != []):
+        if(texto == "" or len(texto) > 5):
+            self.create_popup(5)
+        else:
+            try:
+                cursor.execute(
+                    "SELECT nombre FROM Usuarios WHERE nombre = ?", (texto,))
+                res = cursor.fetchall()
+                if (res != []):
+                    pass
+                else:
+                    sql = "INSERT INTO Usuarios(nombre,puntos) values(?,?)"
+                    try:
+                        self.conexion.execute(sql, (texto, 0))
+                        self.conexion.commit()
+                    except sqlite3.OperationalError:
+                        print("error")
+            except:
                 pass
-            else:
-                sql = "INSERT INTO Usuarios(nombre,puntos) values(?,?)"
-                try:
-                    self.conexion.execute(sql, (texto, 0))
-                    self.conexion.commit()
-                except sqlite3.OperationalError:
-                    print("error")
-        except:
-            pass
 
-        self.conexion.close()
-        self.segundaEscena()
+            self.conexion.close()
+            self.segundaEscena()
     # Funcion que toma el valor de puntos de la base de datos de usuarios y los actualiza
 
     def tomarPuntos(self):
@@ -195,7 +197,7 @@ class App():
         bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto")
         bottomText.pack()
 
-        self.entryNombre = ttk.Entry(frame)
+        self.entryNombre = ttk.Entry(frame, font=("A Goblin Appears!",8), width=8)
         self.entryNombre.pack()
 
         button = tkinter.Button(frame, text="Ingresar",
@@ -325,7 +327,7 @@ class App():
     def crear_tablero_buscaminas(self):
         # Crea una instancia de Buscaminas
         self.buscaminas = Buscaminas(
-            filas=5, columnas=5, num_minas=3)
+            filas=5, columnas=5, num_minas=1)
         self.buscaminas.colocar_minas()
         self.buscaminas.inicializar_tablero()
 
@@ -473,7 +475,6 @@ class App():
         button.pack()
 
         tree = ttk.Treeview(frame, columns=("Columna1", "Columna2"), show="headings")
-        ttk.Style().configure("Treeview.Heading", font=("A Goblin Appears!", 8))
         tree.heading("Columna1", text="Usuario")
         tree.heading("Columna2", text="Puntos")
 
