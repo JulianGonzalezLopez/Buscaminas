@@ -344,12 +344,12 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="Tocaste al pelado, perdiste... el pelado es MÍO")
+            frame, text="Tocaste al pelado, perdiste... el pelado es MÍO", wraplength=400)
         bottomText.pack()
 
         # Reinicio buscaminas
         reiniciar_button = tkinter.Button(
-            frame, text="Intentar salvar al pelado una vez más ", command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
+            frame, text="Intentar salvar al pelado una vez más ", wraplength=400, command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
         reiniciar_button.pack()
 
         # Me gustó
@@ -367,14 +367,8 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¿E- esto... acaso crees que puedes hacer que")
+            frame, text="¿E- esto... acaso crees que puedes hacer que EL GRAN EMPERADOR DEL UNIVERSO LORD FREEZER se interese por una miserable y estupida sabandija como tú?", wraplength=400)
         bottomText.pack()
-        bottomText2 = tkinter.Label(
-            frame, text="EL GRAN EMPERADOR DEL UNIVERSO LORD FREEZER se ")
-        bottomText2.pack()
-        bottomText3 = tkinter.Label(
-            frame, text="interese por una miserable y estupida sabandija como tú?")
-        bottomText3.pack()
         button = tkinter.Button(frame, text="Si...",
                                 command=self.segundaEscenaLoveEnding)
         button.pack()
@@ -388,14 +382,8 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="¿Ooh... miserable sabandija...")
+            frame, text="¿Ooh... miserable sabandija...para ganar mi afecto se me ocurren algunas opciones que podrías tratar de realizar", wraplength=400)
         bottomText.pack()
-        bottomText2 = tkinter.Label(
-            frame, text="para ganar mi afecto se me ocurren ")
-        bottomText2.pack()
-        bottomText3 = tkinter.Label(
-            frame, text="algunas opciones que podrías tratar de realizar")
-        bottomText3.pack()
         button = tkinter.Button(frame, text="¿Cuáles?",
                                 command=self.terceraEscenaLoveEnding)
         button.pack()
@@ -409,7 +397,7 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="MORIR, MORIR O MORIR, ¿CUÁL PREFIERES SABANDIJA? JAJAJAJA")
+            frame, text="MORIR, MORIR O MORIR, ¿CUÁL PREFIERES SABANDIJA? JAJAJAJA", wraplength=400)
         bottomText.pack()
         button = tkinter.Button(
             frame, text="MORIR", command=self.escenaBadLoveEnding)
@@ -445,11 +433,8 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(
-            frame, text="Oh... está bien, podremos gobernar juntos el universo a nuestro antojo,")
+            frame, text="Oh... está bien, podremos gobernar juntos el universo a nuestro antojo, ven conmigo.", wraplength=400)
         bottomText.pack()
-        bottomText2 = tkinter.Label(
-            frame, text="ven conmigo.")
-        bottomText2.pack()
         button = tkinter.Button(frame, text="Volver a jugar",
                                 command=lambda: self.reiniciar())
         button.pack()
