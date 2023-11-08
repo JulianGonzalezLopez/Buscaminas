@@ -1,5 +1,5 @@
 import tkinter as tk
-
+import pygame
 
 class BuscaminasUI:
     def __init__(self, root, buscaminas, app_instance):
@@ -84,7 +84,9 @@ class BuscaminasUI:
             for columna in range(self.buscaminas.columnas):
                 if self.buscaminas.tablero[fila][columna] == -1:
                     # Muestra una mina en la casilla correspondiente
-                    self.botones[fila][columna]["text"] = "💣"
+                    self.botones[fila][columna]["text"] = '💣'
+                    self.explosion = pygame.mixer.Sound('../sound/explosion.wav')
+                    self.explosion.play()
 
         # Deshabilita todos los botones en el tablero
         for fila_botones in self.botones:
@@ -129,7 +131,7 @@ class BuscaminasUI:
             boton_facil = tk.Button(
                 self.frame, text="Que fácil", command=self.app.primeraEndingWithKrilin)
             boton_facil.grid(row=self.buscaminas.filas, column=0,
-                             columnspan=self.buscaminas.columnas)
+                             columnspan=self.buscaminas.columnas, pady=(10,0))
             self.puntaje = self.puntos
             print("Puntos obtenidos ganando", self.puntaje)
 
