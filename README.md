@@ -14,7 +14,8 @@ Para correr este proyecto necesitaras los siguientes programas / librerias insta
 2. Poner los ejecutables de python en el path https://www.youtube.com/watch?v=5YKZ03ZcvLo
 3. Instalar pillow mediante PIP usando el comando "pip install pillow"
 4. Instalar pygame mediante PIP usando el comando "pip install pygame"
-4. Clonar este repositorio mediante el comando "git clone https://github.com/JulianGonzalezLopez/Buscaminas.git" o descargando el .ZIP
+5. Clonar este repositorio mediante el comando "git clone https://github.com/JulianGonzalezLopez/Buscaminas.git" o descargando el .ZIP
+6. Instala la fuente "A Gobling Appears!" la cual estará en el .zip y listo!
 
 ## Manual de usuario
 1. Abrir la carpeta en Visual Studio Code
