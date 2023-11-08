@@ -153,20 +153,23 @@ class BuscaminasUI:
         return fila, columna
 
     def reiniciar_juego(self):
-        # Limpia el tablero del Buscaminas actual
-        self.buscaminas.colocar_minas()
-        self.buscaminas.inicializar_tablero()
+        if self.app and self.app.window:
+            # Limpia el tablero del Buscaminas actual
+            self.buscaminas.colocar_minas()
+            self.buscaminas.inicializar_tablero()
 
-        # Limpia los botones de la interfaz
-        for fila_botones in self.botones:
-            for boton in fila_botones:
-                boton.destroy()
-        self.botones.clear()
+            if self.botones:
+                # Limpia los botones de la interfaz
+                for fila_botones in self.botones:
+                    for boton in fila_botones:
+                        if boton.winfo_exists():  # Verifica si el botón aún existe
+                            boton.destroy()
+                self.botones.clear()
 
-        # Configura nuevamente el tablero
-        self.configurar_interfaz()
-        self.root.update()  # Forzar la actualización de la interfaz
-        self.start()
+            # Configura nuevamente el tablero
+            self.configurar_interfaz()
+            self.root.update()  # Forzar la actualización de la interfaz
+            self.start()
 
     def start(self):
         # Llama a esta función para mostrar la ventana del Buscaminas
