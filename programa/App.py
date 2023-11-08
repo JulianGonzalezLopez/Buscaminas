@@ -323,7 +323,8 @@ class App():
         self.cargar_sonido('../sound/intro.mp3')
         self.iniciar_musica(-1)
         frame = tkinter.Frame(self.window, )
-        self.volumecontrol = tkinter.Scale(frame, from_=0, to=100, orient="horizontal", command=self.actualizar_volumen)
+        self.volumecontrol = tkinter.Scale(
+            frame, from_=0, to=100, orient="horizontal", command=self.actualizar_volumen)
         self.volumecontrol.set(25)  # Valor inicial del volumen
         self.volumecontrol.pack(side="bottom")
         self.window.iconphoto(
@@ -523,8 +524,8 @@ class App():
         pygame.mixer.music.play(veces)
 
     def actualizar_volumen(self, val):
-        volumen = int(val) / 100 # Convertir el valor del control deslizante en un valor de volumen entre 0 y 1
-        pygame.mixer.music.set_volume(volumen) 
+        volumen = int(val) / 100  # Manejo el volumen entre 0 y 1
+        pygame.mixer.music.set_volume(volumen)
 
 
 if __name__ == "__main__":
