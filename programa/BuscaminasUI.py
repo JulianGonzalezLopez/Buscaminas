@@ -91,6 +91,7 @@ class BuscaminasUI:
                     self.botones[fila][columna]["text"] = '💣'
                     self.explosion = pygame.mixer.Sound(
                         '../sound/explosion.wav')
+                    self.explosion.set_volume(0.25)
                     self.explosion.play()
         self.game_over = True
 
