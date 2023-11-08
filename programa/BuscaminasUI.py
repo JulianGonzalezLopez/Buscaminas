@@ -72,12 +72,12 @@ class BuscaminasUI:
             # No hay minas cercanas, explorar casillas adyacentes
             if minas_cercanas == 0:
                 self.buscaminas.explore_casillas_adyacentes(fila, columna)
-                # Establece el texto del botón en "0" cuando no hay minas cercanas para feedback
+                # Establecer el texto del botón en "0" cuando no hay minas cercanas
                 self.botones[fila][columna]["text"] = "0"
-            # Muestra el número de minas cercanas en la casilla
+            # Mostrar el número de minas cercanas en la casilla
             elif minas_cercanas > 0:
                 self.botones[fila][columna]["text"] = str(minas_cercanas)
-            # Llama a verificar_victoria después de descubrir una casilla
+            # Llamar a verificar_victoria después de descubrir una casilla
             self.verificar_victoria()
 
     def descubrir_casilla(self, fila, columna):
@@ -122,21 +122,21 @@ class BuscaminasUI:
             boton["text"] = " "
 
     def verificar_victoria(self):
-        todas_sin_minas_descubiertas = True
-
+        todas_descubiertas = True
         for fila in range(self.buscaminas.filas):
             for columna in range(self.buscaminas.columnas):
+                boton = self.botones[fila][columna]
                 valor = self.buscaminas.tablero[fila][columna]
-                texto = self.botones[fila][columna]["text"]
+                texto = boton["text"]
 
-                if valor != -1 and texto != " ":
-                    # Si hay una casilla sin mina que no esté descubierta, no se cumple la condición
-                    todas_sin_minas_descubiertas = False
-                    break
+                if valor != -1:
+                    # Casilla sin mina, debe estar descubierta
+                    if texto == " ":
+                        todas_descubiertas = False
+                        break
 
-        if todas_sin_minas_descubiertas:
-            # Todas las casillas sin minas están descubiertas
-            # Aquí puedes mostrar el botón "Que fácil" o tomar otra acción de victoria
+        if todas_descubiertas:
+            # Crear un botón "Que fácil" y asociarlo a ruta final
             boton_facil = tk.Button(
                 self.frame, text="Que fácil", command=self.app.primeraEndingWithKrilin)
             boton_facil.grid(row=self.buscaminas.filas, column=0,
@@ -145,7 +145,7 @@ class BuscaminasUI:
             self.game_over = True
 
     def obtener_fila_columna(self, boton):
-        # Obtiengo la información de la cuadrícula del botón
+        # Obtiene la información de la cuadrícula del botón
         info = boton.grid_info()
         fila = info["row"]
         columna = info["column"]
@@ -167,9 +167,9 @@ class BuscaminasUI:
 
         # Configura nuevamente el tablero
         self.configurar_interfaz()
-        self.root.update()  # Fuerza la actualización de la interfaz
+        self.root.update()  # Forzar la actualización de la interfaz
         self.start()
 
     def start(self):
-        # Llama para mostrar la ventana del Buscaminas
+        # Llama a esta función para mostrar la ventana del Buscaminas
         self.root.mainloop()
