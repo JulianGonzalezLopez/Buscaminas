@@ -140,7 +140,6 @@ class App():
     # Funcion que toma el valor de puntos de la base de datos de usuarios y los actualiza
 
     def tomarPuntos(self):
-        print("Pidiendo puntos del usuario")
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
@@ -149,17 +148,12 @@ class App():
         res = cursor.fetchone()
         res = res[0]
         self.actualizacion = res + self.buscaminas_ui.puntaje
-        print(res, "VALOR ACTUAL PUNTOS")
         cursor.execute("UPDATE Usuarios SET puntos = ? WHERE nombre = ?",
                        (self.actualizacion, self.usuario,))
         self.conexion.commit()
         self.conexion.close()
-        # mensaje en consola para comprobar que se actualizaron los datos en la base
-        print("Base de datos actualizada: Usuario: ",
-              self.usuario, "Puntos: ", self.actualizacion)
 
     def revisarPosesionLogro(self, logro):
-        print('Revisando si usuario : ' + self.usuario + ' posee este logro')
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
@@ -168,7 +162,7 @@ class App():
         res = cursor.fetchall()
         self.conexion.close()
         if (res != []):
-            print("Ya se encuentra en posesion del mismo")
+            print("")
         else:
             self.relacionarUsuarioLogro(logro)
 
@@ -178,19 +172,16 @@ class App():
         self.conexion.execute(
             "INSERT INTO Usuarios_Logros(nombreU,idL) values(?,?)", (self.usuario, logro))
         self.conexion.commit()
-        print("LOGRO OBTENIDO! " + str(logro))
         self.create_popup(logro)
         self.conexion.close()
 
     def retornarTopCinco(self):
-        print("Pidiendo puntos del usuario")
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
         cursor.execute(
             'SELECT nombre, puntos FROM Usuarios Order By Puntos DESC LIMIT 5')
         res = cursor.fetchall()
-        print(res)
         return res
 
     # Escenas buscaminas
@@ -319,7 +310,6 @@ class App():
     # Metodo para el boton de la segunda escena o no funciona como YO quiero
     def crear_boton_oh_no(self):
         self.tomarPuntos()
-        print("vamo bocaaaa")  # depuracion
         self.terceraEscenaBadEnding()
 
     def clear(self):
@@ -373,7 +363,7 @@ class App():
 
         # Reinicio buscaminas
         reiniciar_button = tkinter.Button(
-            frame, text="Intentar salvar al pelado una vez más ", wraplength=400, command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
+            frame, text="Intentar salvar al pelado una vez más ", wraplength=400, command=lambda: [self.segundaEscenaBadEnding()])
         reiniciar_button.pack(pady=(10, 0))
 
         # Me gustó

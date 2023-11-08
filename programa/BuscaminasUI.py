@@ -62,7 +62,6 @@ class BuscaminasUI:
             self.game_over = True
             self.mostrar_minas_al_perder()
             self.puntaje = self.puntos
-            print("Puntos obtenidos ", self.puntaje)
         # La casilla no tiene una mina, descubre la casilla
         else:
             self.buscaminas.cubiertas[fila][columna] = False
@@ -142,7 +141,6 @@ class BuscaminasUI:
             boton_facil.grid(row=self.buscaminas.filas, column=0,
                              columnspan=self.buscaminas.columnas, pady=(10, 0))
             self.puntaje = self.puntos
-            print("Puntos obtenidos ganando", self.puntaje)
             self.game_over = True
 
     def obtener_fila_columna(self, boton):
@@ -153,23 +151,23 @@ class BuscaminasUI:
         return fila, columna
 
     def reiniciar_juego(self):
-        if self.app and self.app.window:
+        if self.app and self.app.window and self.app.window.winfo_exists():
             # Limpia el tablero del Buscaminas actual
             self.buscaminas.colocar_minas()
             self.buscaminas.inicializar_tablero()
 
-            if self.botones:
-                # Limpia los botones de la interfaz
-                for fila_botones in self.botones:
-                    for boton in fila_botones:
-                        if boton.winfo_exists():  # Verifica si el botón aún existe
-                            boton.destroy()
-                self.botones.clear()
+        if self.botones:
+            # Limpia los botones de la interfaz
+            for fila_botones in self.botones:
+                for boton in fila_botones:
+                    if boton.winfo_exists():  # Verifica si el botón aún existe
+                        boton.destroy()
+            self.botones.clear()
 
-            # Configura nuevamente el tablero
-            self.configurar_interfaz()
-            self.root.update()  # Forzar la actualización de la interfaz
-            self.start()
+        # Configura nuevamente el tablero
+        self.configurar_interfaz()
+        self.root.update()  # Forzar la actualización de la interfaz
+        self.start()
 
     def start(self):
         # Llama a esta función para mostrar la ventana del Buscaminas
