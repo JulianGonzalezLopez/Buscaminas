@@ -20,7 +20,7 @@ class App():
         self.window.minsize(405, 600)
         self.window.columnconfigure(0, weight=1)
         self.window.rowconfigure(0, weight=1)
-        self.window.configure() 
+        self.window.configure()
         ttk.Style().configure("Treeview.Heading", font=("A Goblin Appears!", 8))
         self.defaultFont = font.nametofont("TkDefaultFont")
         self.defaultFont.configure(family="A Goblin Appears!", size=8)
@@ -116,7 +116,7 @@ class App():
         cursor = self.conexion.cursor()
         texto = self.entryNombre.get()
         self.usuario = texto
-        if(texto == "" or len(texto) > 5):
+        if (texto == "" or len(texto) > 5):
             self.create_popup(5)
         else:
             try:
@@ -187,7 +187,8 @@ class App():
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
-        cursor.execute('SELECT nombre, puntos FROM Usuarios Order By Puntos DESC LIMIT 5')
+        cursor.execute(
+            'SELECT nombre, puntos FROM Usuarios Order By Puntos DESC LIMIT 5')
         res = cursor.fetchall()
         print(res)
         return res
@@ -205,18 +206,18 @@ class App():
         bImg.label.pack()
 
         bottomText = tkinter.Label(frame, text="Dime tu nombre, insecto",)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
 
-        self.entryNombre = ttk.Entry(frame, font=("A Goblin Appears!",8), width=8)
-        self.entryNombre.pack(pady=(10,0))
+        self.entryNombre = ttk.Entry(
+            frame, font=("A Goblin Appears!", 8), width=8)
+        self.entryNombre.pack(pady=(10, 0))
 
         button = tkinter.Button(frame, text="Ingresar",
                                 command=lambda: self.ingresarNombre())
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
         pygame.mixer.music.load('../sound/menus.mp3')
         pygame.mixer.music.play(4)
         frame.pack(side='top', anchor='n', pady=10)
-        
 
     def segundaEscena(self):
         self.clear()
@@ -228,17 +229,16 @@ class App():
 
         bottomText = tkinter.Label(
             frame, text="Esto...¿Piensas que puedes ganarle al gran Lord Freezer?", wraplength=400,)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
 
         buttonBad = tkinter.Button(
             frame, text="Si, he venido a rescatar al cabeza de rodilla", wraplength=400, command=lambda: self.primerEscenaBadEnding(),)
-        buttonBad.pack(pady=(10,0))
+        buttonBad.pack(pady=(10, 0))
         buttonGood = tkinter.Button(
             frame, text="No, vine por vos", command=lambda: self.primeraEscenaGoodEnding(),)
-        buttonGood.pack(pady=(10,0))
+        buttonGood.pack(pady=(10, 0))
 
         frame.pack(side='top', anchor='n', pady=10)
-
 
     def primeraEscenaGoodEnding(self):
         self.clear()
@@ -272,10 +272,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="Muchas gracias, necesitaba esto",)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="Reiniciar",
                                 command=lambda: self.reiniciar())
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
 
         frame.pack(side='top', anchor='n', pady=10)
 
@@ -288,10 +288,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="¿En serio solo te importa el pelado?",)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="Si...",
                                 command=lambda: self.segundaEscenaBadEnding(),)
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
 
         frame.pack(side='top', anchor='n', pady=10)
 
@@ -306,7 +306,7 @@ class App():
         self.aux = bImg.new_pic
         bImg.label.pack()
         bottomText = tkinter.Label(frame, text="Entonces...MUERE!",)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         frame.pack(side='top', anchor='n', pady=10)
 
         # Creo e inicializo el tablero, actualizo la ventana para que ande.
@@ -341,7 +341,7 @@ class App():
         bImg.label.pack()
         self.buttonIniciar = tkinter.Button(
             frame, text="Iniciar", command=lambda: self.primeraEscena(),)
-        self.buttonIniciar.pack(pady=(10,0))
+        self.buttonIniciar.pack(pady=(10, 0))
         frame.pack(side='top', anchor='n', pady=10)
 
     # Buscaminas
@@ -349,7 +349,7 @@ class App():
     def crear_tablero_buscaminas(self):
         # Crea una instancia de Buscaminas
         self.buscaminas = Buscaminas(
-            filas=2, columnas=2, num_minas=1)
+            filas=5, columnas=5, num_minas=2)
         self.buscaminas.colocar_minas()
         self.buscaminas.inicializar_tablero()
 
@@ -369,17 +369,17 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="Tocaste al pelado, perdiste... el pelado es MÍO", wraplength=400,)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
 
         # Reinicio buscaminas
         reiniciar_button = tkinter.Button(
             frame, text="Intentar salvar al pelado una vez más ", wraplength=400, command=lambda: [self.segundaEscenaBadEnding(), self.buscaminas_ui.reiniciar_juego()])
-        reiniciar_button.pack(pady=(10,0))
+        reiniciar_button.pack(pady=(10, 0))
 
         # Me gustó
         love_ending_button = tkinter.Button(
             frame, text="Me gustó...", command=self.primeraEscenaLoveEnding)
-        love_ending_button.pack(pady=(10,0))
+        love_ending_button.pack(pady=(10, 0))
 
         frame.pack(side='top', anchor='n', pady=10)
 
@@ -395,10 +395,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="¿E- esto... acaso crees que puedes hacer que EL GRAN EMPERADOR DEL UNIVERSO LORD FREEZER se interese por una miserable y estupida sabandija como tú?", wraplength=400,)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="Si...",
                                 command=self.segundaEscenaLoveEnding)
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
         frame.pack(side='top', anchor='n', pady=10)
 
     def segundaEscenaLoveEnding(self):
@@ -410,10 +410,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="¿Ooh... miserable sabandija...para ganar mi afecto se me ocurren algunas opciones que podrías tratar de realizar", wraplength=400,)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="¿Cuáles?",
                                 command=self.terceraEscenaLoveEnding)
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
         frame.pack(side='top', anchor='n', pady=10)
 
     def terceraEscenaLoveEnding(self):
@@ -428,10 +428,10 @@ class App():
         bottomText.pack()
         button = tkinter.Button(
             frame, text="MORIR", command=self.escenaBadLoveEnding,)
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
         button = tkinter.Button(
             frame, text="Prefiero tu amor", command=self.cuartaEscenaLoveEnding,)
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
         frame.pack(side='top', anchor='n', pady=10)
 
     def escenaBadLoveEnding(self):
@@ -447,10 +447,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="¡MUERE INSECTO!",)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="Reiniciar",
                                 command=lambda: self.reiniciar())
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
 
         frame.pack(side='top', anchor='n', pady=10)
 
@@ -464,10 +464,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="Oh... está bien, podremos gobernar juntos el universo a nuestro antojo, ven conmigo.", wraplength=400,)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="Volver a jugar",
                                 command=lambda: self.reiniciar())
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
 
         frame.pack(side='top', anchor='n', pady=10)
 
@@ -484,10 +484,10 @@ class App():
         bImg.label.pack()
         bottomText = tkinter.Label(
             frame, text="... Felicidades miserable sabandija, llevate al pelado.", wraplength=400,)
-        bottomText.pack(pady=(10,0))
+        bottomText.pack(pady=(10, 0))
         button = tkinter.Button(frame, text="Vamonos Krilin...",
                                 command=self.segundaEndingWithKrilin)
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
         frame.pack(side='top', anchor='n', pady=10)
 
     def segundaEndingWithKrilin(self):
@@ -503,9 +503,10 @@ class App():
         bottomText.pack()
         button = tkinter.Button(frame, text="Volver a jugar",
                                 command=lambda: self.reiniciar())
-        button.pack(pady=(10,0))
+        button.pack(pady=(10, 0))
 
-        tree = ttk.Treeview(frame, columns=("Columna1", "Columna2"), show="headings")
+        tree = ttk.Treeview(frame, columns=(
+            "Columna1", "Columna2"), show="headings")
         tree.heading("Columna1", text="Usuario")
         tree.heading("Columna2", text="Puntos")
 
@@ -513,9 +514,9 @@ class App():
         tree.column("Columna2", anchor="center")
         tree.pack()
 
-        topCinco  = self.retornarTopCinco()
-        for nombre,valor in topCinco:
-            tree.insert("", "end", values=(nombre,valor))
+        topCinco = self.retornarTopCinco()
+        for nombre, valor in topCinco:
+            tree.insert("", "end", values=(nombre, valor))
 
         frame.pack(side='top', anchor='n', pady=10)
 
@@ -527,9 +528,8 @@ class App():
 
     def iniciar_musica(self, veces=0):
         pygame.mixer.music.play(veces)
-    
 
-        
+
 if __name__ == "__main__":
     app = App()
     app.window.mainloop()

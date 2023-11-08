@@ -1,6 +1,7 @@
 import tkinter as tk
 import pygame
 
+
 class BuscaminasUI:
     def __init__(self, root, buscaminas, app_instance):
         self.root = root
@@ -8,6 +9,7 @@ class BuscaminasUI:
         self.app = app_instance
         self.puntos = 0
         self.puntaje = 0
+        self.game_over = False
         self.frame = tk.Frame(root)
         self.frame.pack()
 
@@ -53,8 +55,11 @@ class BuscaminasUI:
         return self.puntos
 
     def clic_en_casilla(self, fila, columna):
+        if self.game_over:
+            return
         # La casilla tiene una mina, el juego termina
         if self.buscaminas.tablero[fila][columna] == -1:
+            self.game_over = True
             self.mostrar_minas_al_perder()
             self.puntaje = self.puntos
             print("Puntos obtenidos ", self.puntaje)
@@ -85,8 +90,10 @@ class BuscaminasUI:
                 if self.buscaminas.tablero[fila][columna] == -1:
                     # Muestra una mina en la casilla correspondiente
                     self.botones[fila][columna]["text"] = '💣'
-                    self.explosion = pygame.mixer.Sound('../sound/explosion.wav')
+                    self.explosion = pygame.mixer.Sound(
+                        '../sound/explosion.wav')
                     self.explosion.play()
+        self.game_over = True
 
         # Deshabilita todos los botones en el tablero
         for fila_botones in self.botones:
@@ -104,6 +111,8 @@ class BuscaminasUI:
         oh_no_button.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
 
     def marcar_con_bandera(self, event):
+        if self.game_over:
+            return
         boton = event.widget  # Obtiene el widget (botón) que generó el evento
 
         if boton["state"] != "disabled" and boton["text"] == " ":
@@ -127,13 +136,14 @@ class BuscaminasUI:
                         break
 
         if todas_descubiertas:
-            # Crear un botón "Que fácil" y asociarlo a terceraEscenaBadEnding
+            # Crear un botón "Que fácil" y asociarlo a ruta final
             boton_facil = tk.Button(
                 self.frame, text="Que fácil", command=self.app.primeraEndingWithKrilin)
             boton_facil.grid(row=self.buscaminas.filas, column=0,
-                             columnspan=self.buscaminas.columnas, pady=(10,0))
+                             columnspan=self.buscaminas.columnas, pady=(10, 0))
             self.puntaje = self.puntos
             print("Puntos obtenidos ganando", self.puntaje)
+            self.game_over = True
 
     def obtener_fila_columna(self, boton):
         # Obtiene la información de la cuadrícula del botón
