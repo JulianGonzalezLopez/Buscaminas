@@ -6,12 +6,14 @@ Este proyecto es una implementación simple del juego Buscaminas con una interfa
 Para correr este proyecto necesitaras los siguientes programas / librerias instalados:
 - Python (Fue desarrollado con la version 3.12)
 - Libreria PIL / Pillow
+- Libreria Pygame
 - SQLite3 (Viene por defecto en la standard library desde la versión 2.5)
 
 ## Manual de descargar
 1. Descargar e instalar Python desde https://www.python.org/downloads/
 2. Poner los ejecutables de python en el path https://www.youtube.com/watch?v=5YKZ03ZcvLo
 3. Instalar pillow mediante PIP usando el comando "pip install pillow"
+4. Instalar pygame mediante PIP usando el comando "pip install pygame"
 4. Clonar este repositorio mediante el comando "git clone https://github.com/JulianGonzalezLopez/Buscaminas.git" o descargando el .ZIP
 
 ## Manual de usuario
@@ -36,6 +38,22 @@ La clase `App` se encarga de gestionar la interfaz gráfica del juego y las narr
 
 - `__init__(self)`: Constructor de la clase. Inicializa la ventana y otras variables importantes.
 
+-`create_popup(self, logro)`: Se encarga de crear una ventana emergente que muestra información sobre un logro, incluyendo su nombre y una imagen relacionada, y luego la cierra automáticamente después de 2 segundos.
+
+-`crear_db(self)`: Es responsable de crear una base de datos SQLite con tres tablas: "Logros", "Usuarios", y "Usuarios_Logros".
+
+-`cargar_db(self)`: Se encarga de abrir la base de datos "bm.db", insertar registros en la tabla "Logros" y luego cerrar la conexión con la base de datos.
+
+-`ingresarNombre(self)`: Se utiliza para ingresar un nombre de usuario en una base de datos SQLite. Realiza validaciones, verifica si el usuario ya existe y, si no existe, lo agrega como nuevo usuario en la base de datos antes de avanzar a la siguiente escena en la aplicación. 
+
+-`tomarPuntos(self)`: Se utiliza para actualizar los puntos del usuario activo en la base de datos después de ganar o perder en el buscaminas, tomando en cuenta el contador en BuscaminasUI.py.
+
+-`revisarPosesionLogro(self, logro)`: Se utiliza para verificar si un usuario ya posee un logro en la base de datos.
+
+-`relacionarUsuarioLogro(self, logro)`: Se utiliza para relacionar un usuario con un logro específico en la base de datos, lo que significa que el usuario ha obtenido dicho logro.
+
+-`retornarTopCinco(self)`: Se utiliza para obtener y mostrar los cinco mejores usuarios junto con sus puntuaciones en orden descendente.
+
 - `primeraEscena(self)`: Muestra la primera escena del juego con una imagen de introducción y un campo para ingresar el nombre del jugador.
 
 - `segundaEscena(self)`: Muestra la segunda escena del juego con una pregunta al jugador.
@@ -47,6 +65,8 @@ La clase `App` se encarga de gestionar la interfaz gráfica del juego y las narr
 - `primerEscenaBadEnding(self)`: Muestra la primera escena de un final malo.
 
 - `segundaEscenaBadEnding(self)`: Muestra la segunda escena de un final malo del juego y configura el juego Buscaminas.
+
+-`crear_boton_oh_no(self)`: Muestra el boton "oh no" cuando se pierde.
 
 - `clear(self)`: Limpia la ventana de la interfaz gráfica al eliminar todos los elementos en pantalla.
 
@@ -71,6 +91,18 @@ La clase `App` se encarga de gestionar la interfaz gráfica del juego y las narr
 - `escenaBadLoveEnding(self)`: Muestra el final malo de la ruta amorosa.
 
 - `cuartaEscenaLoveEnding(self)`: Muestra la cuarta escena de un final amoroso.
+
+-`primeraEndingWithKrilin(self)`: Muestra la primera escena de un final bueno.
+
+-`segundaEndingWithKrilin(self)`: Muestra la segunda escena de un final bueno.
+
+-`detener_musica(self)`: Detiene la musica cuando se llama.
+
+-`cargar_sonido(self, sonido)`: Carga el sonido requerido en cada escena.
+
+-`iniciar_musica(self, veces=0)`: Inicia la musica requerida en cada escena.
+
+-`actualizar_volumen(self, val)`: Actualiza el valor de volumen cuando se cambia.
 
 ### Clase `Buscaminas` (Buscaminas.py)
 
@@ -142,6 +174,19 @@ La clase `BuscaminasUI` se encarga de gestionar la interfaz de usuario del juego
       - `command`: Asocia una función de manejo de clic (`self.clic_en_casilla(f, c)`) que se ejecutará cuando el jugador interactúe con el botón. Esto permite al jugador revelar o marcar casillas al hacer clic en ellas.
     - Coloca los botones en la interfaz gráfica usando la función `grid` de Tkinter, que los organiza en filas y columnas dentro de un marco (`frame`).
 
+-`actuPuntaje(self, fila, columna)`: Se utiliza para actualizar el puntaje del jugador en función de sus acciones en el juego de Buscaminas. Si el jugador presiona una casilla sin mina, su puntaje se incrementa en 1.
+
+  - **Parámetros**:
+
+    - `self`: La instancia actual de la clase `BuscaminasUI`.
+    - `fila`: La fila de la casilla que se desea marcar como "descubierta".
+    - `columna`: La columna de la casilla que se desea marcar como "descubierta".
+
+  - **Comportamiento**:
+    -Utiliza un condicional if para saber si el jugador presiono una mina o no.
+      -Si no se presiono una, el contador suma 1.
+    -Devuelve el valor de la variable que contiene los puntos.
+
 - `clic_en_casilla(self, fila, columna)`: Maneja la acción de hacer clic en una casilla en el juego Buscaminas.
 
   - **Parámetros**:
@@ -184,6 +229,49 @@ La clase `BuscaminasUI` se encarga de gestionar la interfaz de usuario del juego
     - A continuación, deshabilita todos los botones en el tablero al establecer su estado como "disabled". Esto evita que el jugador interactúe con las casillas una vez que el juego ha terminado.
     - Finalmente, activa la tercera escena del juego llamando a la función `terceraEscenaBadEnding()` de la aplicación (`self.app`), que indica un resultado negativo en el juego.
 
+- `marcar_con_bandera(self, event)`: Actualiza el texto del boton que se presione click derecho con una bandera.
+
+  - **Parámetros**:
+
+    - `self`: La instancia actual de la clase `BuscaminasUI`.
+    - `event`: Evento generado por el widget.
+  
+  - **Comportamiento**:
+    -Utiliza un condicional if para ver si la casilla seleccionada esta desactivada y si no tiene nada escrito
+      -Si es asi pone una bandera
+      -Posteriormente llama a la funcion verificadora de victoria.
+    -Si no se cumple esta funcion y hay ya una bandera.
+      -Deja un espacio en blanco nuevamente
+
+-`verificar_victoria(self)`: Se utiliza para verificar si todas las casillas sin minas han sido descubiertas, lo que indica que el jugador ha ganado el juego de Buscaminas.
+
+  - **Parámetros**:
+
+    - `self`: La instancia actual de la clase `BuscaminasUI`.
+  
+  - **Comportamiento**:
+    - Se lleva un seguimiento de si todas las casillas sin minas han sido descubiertas.
+    - Utiliza dos bucles anidados para recorrer todas las filas y columnas del tablero del juego de Buscaminas.
+      - Para cada celda en el tablero, obtiene el botón correspondiente del mismo y el valor de la celda (que puede ser -1 si es una mina).
+      - Verifica si el valor de la celda es diferente a -1 y si el texto en el botón es igual a un espacio en blanco (" ").
+        - Si encuentra una casilla sin mina que no ha sido descubierta, establece la variable todas_descubiertas en False y sale del bucle utilizando break.
+    - Después de salir de los bucles, verifica el valor de todas_descubiertas.
+      - Si todas_descubiertas es True, significa que todas las casillas sin minas han sido descubiertas y, por lo tanto, el jugador ha ganado el juego.
+      - Crea un botón llamado "Que fácil" y lo asocia a la función primeraEndingWithKrilin cuando se hace clic en él.
+      - La variable self.puntaje se actualiza con el valor de self.puntos. Además, se imprime en la consola el puntaje obtenido al ganar el juego.
+    
+-`obtener_fila_columna(self, boton)`: Se utiliza para obtener la posición de una celda en la cuadrícula (fila y columna) a partir de un botón específico.
+
+  - **Parámetros**:
+
+    - `self`: La instancia actual de la clase `BuscaminasUI`.
+    - `boton`: Es un objeto botón (o widget) en la interfaz gráfica.
+  
+  - **Comportamiento**:
+    -Utiliza el método grid_info() para obtener la información de la cuadrícula del botón.
+    -Extrae la fila y la columna de la información obtenida y las almacena en las variables fila y columna.
+    -Finalmente, la función devuelve las variables fila y columna, que representan la posición del botón en la cuadrícula.
+
 - `reiniciar_juego(self)`: Reinicia el juego después de perder o ganar en el juego Buscaminas.
 
   - **Comportamiento**:
@@ -197,6 +285,25 @@ La clase `BuscaminasUI` se encarga de gestionar la interfaz de usuario del juego
     - Inicia el juego nuevamente llamando a la función `start()` para que el jugador pueda interactuar con el tablero y jugar.
 
 - `start(self)`: Inicia la ventana del juego Buscaminas.
+
+### Clase `PopUpImage` (PopUpImage.py)
+
+La clase PopUpImage se encarga de darle imagen y tamaño a la ventana de los logros.
+
+- `PopUpImage()`: Constructor de la clase.
+
+-`__init__(self,parent,url)`: Se utiliza para crear una instancia de una imagen que se mostrará en una ventana emergente de una interfaz gráfica de usuario.
+
+  - **Parámetros**:
+
+    - `self`: La instancia actual de la clase `PopUpImage`.
+    - `parent`: Es el widget padre al que se agregará la imagen en la ventana emergente.
+    - `url`: Es la ruta de la imagen que se utilizará para crear la imagen que se mostrará en la ventana emergente.
+
+  - **Comportamiento**:
+    - Se crea una nueva imagen (self.new_pic) utilizando la biblioteca PIL (Python Imaging Library) para cargar la imagen especificada por url.
+      - Luego, se redimensiona la imagen a un tamaño de 100x120 píxeles utilizando el método resize
+    - Se crea un widget de etiqueta (tkinter.Label) en el widget padre (parent) y se asocia con la imagen self.new_pic que se ha creado anteriormente.
 
 ## Uso
 
