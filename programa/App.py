@@ -5,7 +5,7 @@ from PopUpImage import PopUpImage
 from Buscaminas import Buscaminas
 from BuscaminasUI import BuscaminasUI
 import sqlite3
-
+# comentario
 
 class App():
     def __init__(self):
