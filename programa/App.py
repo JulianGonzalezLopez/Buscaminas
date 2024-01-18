@@ -35,7 +35,7 @@ class App():
 
     def create_popup(self, logro):
 
-        # Se llama a la base de datos para saber que texto corresponde al popup
+        # Se llama a la base de datos para saber que texto corresponde al popup #picominazo comment
         self.conexion = sqlite3.connect("bm.db")
         self.conexion.execute("PRAGMA foreign_keys = 1")
         cursor = self.conexion.cursor()
